@@ -2,7 +2,7 @@ FROM alpine:latest
 ARG COMPOSERAUTH={}
 ENV COMPOSER_AUTH $COMPOSERAUTH
 RUN apk --update --no-cache --virtual foolbuild add php7-fpm php7-bcmath php7-json php7-opcache php7-curl php7-mbstring php7-gd php7-zip php7-xml php7-pdo_mysql git composer && \
-    mkdir /var/www/foolfuuka && \
+    mkdir -p /var/www/foolfuuka && \
     wget https://github.com/pleebe/FoolFuuka/archive/master.tar.gz -qO- | tar xzf - --strip-components=1 -C /var/www/foolfuuka && \
     cd /var/www/foolfuuka && \
     composer dump-autoload --optimize && \
