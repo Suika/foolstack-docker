@@ -1,6 +1,6 @@
 FROM alpine:latest
-ARG COMPOSERAUTH={}
-ENV COMPOSER_AUTH $COMPOSERAUTH
+ARG COMPOSER_AUTH={}
+RUN adduser -D -g 'www' www
 RUN apk --update --no-cache --virtual foolbuild add php7-fpm php7-bcmath php7-json php7-opcache php7-curl php7-mbstring php7-gd php7-zip php7-xml php7-pdo_mysql git composer && \
     mkdir -p /var/www/foolfuuka && \
     wget https://github.com/pleebe/FoolFuuka/archive/master.tar.gz -qO- | tar xzf - --strip-components=1 -C /var/www/foolfuuka && \
@@ -21,4 +21,6 @@ RUN apk --update --no-cache --virtual foolbuild add php7-fpm php7-bcmath php7-js
     git clone https://github.com/pleebe/foolfuuka-plugin-fortune.git && \
     git clone https://github.com/pleebe/foolfuuka-plugin-cloudflare-cache-purge.git && \
     git clone https://github.com/pleebe/foolfuuka-plugin-table.git && \
-    apk del foolbuild
+    apk del foolbuild && \
+    chown -R www:www /var/www/foolfuuka
+
