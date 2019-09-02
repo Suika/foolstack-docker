@@ -1,6 +1,6 @@
 # FoolStack
 
-````
+```
 version: '2'
 services:
   foolstack-db:
@@ -21,6 +21,7 @@ services:
       - foolstack-db
     volumes:
       - foolframe:/var/www/foolfuuka/public/foolframe
+      - foolframe-conf:/var/www/foolfuuka/app/foolz/foolframe/config/
     restart: always
   foolstack-nginx:
     image: legsplits/foolstack:nginx
@@ -52,6 +53,8 @@ services:
 volumes:
   foolframe:
     driver: local
+  foolframe-conf:
+    drirver: local
   foolframe-db:
     driver: local
   foolframe-sphinx:
