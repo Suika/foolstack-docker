@@ -32,15 +32,20 @@ services:
       - foolstack-php
     volumes:
       - foolframe:/var/www/foolfuuka/public/foolframe:ro
+      - foolframe-boards:/var/www/foolfuuka/public/foolfuuka/boards:ro
     ports:
       - 1346:80
   foolstack-asagi:
-    image: legsplits/foolstack:nginx
+    image: legsplits/foolstack:asagi
     container_name: foolstack-asagi
     depends_on:
       - foolstack-db
+    environment:
+      - UID=1000
+      - GID=1000
+      - ASAGI_DB_HOST=some.other.host
     volumes:
-    - ./asagi.json:/asagi/asagi.json  # asagi configuration file
+      - foolframe-boards:/boards  # storage where images and thumbs will be written to
   foolstack-sphinx:
     image: macbre/sphinxsearch:latest
     container_name: foolstack-sphinx
@@ -54,9 +59,11 @@ volumes:
   foolframe:
     driver: local
   foolframe-conf:
-    drirver: local
+    driver: local
   foolframe-db:
     driver: local
   foolframe-sphinx:
+    driver: local
+  foolframe-boards:
     driver: local
 ```
