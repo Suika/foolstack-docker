@@ -7,7 +7,7 @@ RUN apk --update --no-cache --virtual foolbuild add php7-fpm php7-bcmath php7-js
     cd /var/www/foolfuuka && \
     composer dump-autoload --optimize && \
     yes y | composer install && \
-    mkdir -p /var/www/foolfuuka/app/foolz/foolfuuka/plugins/foolz && \
+    mkdir -p /var/www/foolfuuka/app/foolz/foolfuuka/plugins/foolz /var/www/foolfuuka/public/foolframe /var/www/foolfuuka/app/foolz/foolframe/config && \
     cd /var/www/foolfuuka/app/foolz/foolfuuka/plugins/foolz && \
     git clone https://github.com/pleebe/foolfuuka-plugin-board-statistics.git && \
     git clone https://github.com/FoolCode/foolfuuka-plugin-dice-roll.git && \
@@ -23,4 +23,4 @@ RUN apk --update --no-cache --virtual foolbuild add php7-fpm php7-bcmath php7-js
     git clone https://github.com/pleebe/foolfuuka-plugin-table.git && \
     apk del foolbuild && \
     chown -R www:www /var/www/foolfuuka
-
+VOLUME /var/www/foolfuuka/public/foolframe
