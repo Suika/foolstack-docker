@@ -8,7 +8,10 @@ services:
   foolstack-db:
     image: percona:5.7
     container_name: foolstack-db
+    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci --skip-character-set-client-handshake --open-files-limit=40000 --max-connections=1000
     restart: always
+    environment:
+      - INIT_TOKUDB=true
     volumes:
       - foolframe-db:/var/lib/mysql
     ports:
@@ -27,6 +30,7 @@ services:
   foolstack-nginx:
     image: legsplits/foolstack:nginx
     container_name: foolstack-nginx
+#    read_only: true
     restart: always
     depends_on:
       - foolstack-db
@@ -34,8 +38,15 @@ services:
     volumes:
       - foolframe-temp:/var/www/foolfuuka/public/foolframe:ro
       - foolframe-boards:/var/www/foolfuuka/public/foolfuuka/boards:ro
+#    tmpfs:
+#      - /tmp
     ports:
       - 1346:80
+  foolstack-redis:
+    container_name: foolstack-redis
+    image: healthcheck/redis
+    volumes:
+      - foolframe-redis:/data
   foolstack-asagi:
     image: legsplits/foolstack:asagi
     container_name: foolstack-asagi
@@ -68,5 +79,7 @@ volumes:
   foolframe-sphinx: # SphinxDB
     driver: local
   foolframe-boards: # Downloaded images and thumbs
+    driver: local
+  foolframe-redis:  # Redis
     driver: local
 ```
