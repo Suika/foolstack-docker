@@ -23,8 +23,9 @@ services:
     container_name: foolstack-php
     restart: always
     environment:
-      - REDIS_ENABLE=false
-      - REDIS_SERVERS='foolstack-redis'
+      - REDIS_ENABLE=true
+      - REDIS_PREFIX=foolstack_UwU_          # cancer
+      - REDIS_SERVERS='foolstack-redis:6379' # see 6379? important
     depends_on:
       - foolstack-db
       - foolstack-redis
