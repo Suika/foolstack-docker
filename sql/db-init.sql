@@ -1,0 +1,14 @@
+SET GLOBAL default_storage_engine=TokuDB;
+SET GLOBAL sql_mode='';
+SET GLOBAL log_bin_trust_function_creators = 1;
+CREATE USER 'asagi'@'foolstack-scraper%' IDENTIFIED BY 'pass';  
+CREATE USER 'foolfuuka'@'foolstack-php%' IDENTIFIED BY 'pass';
+CREATE USER 'sphinx'@'foolstack-sphinx%' IDENTIFIED BY 'pass';
+CREATE DATABASE asagi DEFAULT CHARACTER SET utf8mb4 DEFAULT COLLATE utf8mb4_general_ci;
+CREATE DATABASE foolfuuka DEFAULT CHARACTER SET utf8mb4 DEFAULT COLLATE utf8mb4_general_ci;
+GRANT ALL PRIVILEGES ON `asagi`. * TO 'asagi'@'foolstack-scraper%';
+GRANT ALL PRIVILEGES ON `asagi`. * TO 'foolfuuka'@'foolstack-php%';
+GRANT ALL PRIVILEGES ON `foolfuuka`. * TO 'foolfuuka'@'foolstack-php%';
+GRANT SELECT ON `asagi`.* TO 'sphinx'@'foolstack-sphinx%';
+GRANT SELECT, INSERT, UPDATE, DELETE, CREATE, DROP, REFERENCES, INDEX, ALTER, CREATE VIEW, TRIGGER, SHOW VIEW ON `asagi`.`index_counters` TO 'sphinx'@'foolstack-sphinx%' WITH GRANT OPTION;
+FLUSH PRIVILEGES;
