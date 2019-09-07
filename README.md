@@ -11,13 +11,13 @@ services:
     command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci --skip-character-set-client-handshake --open-files-limit=40000 --max-connections=1000
     restart: always
     environment:
-      - INIT_TOKUDB=true
+      MYSQL_ROOT_PASSWORD: pass
     volumes:
       - foolframe-db:/var/lib/mysql
+      - foolframe-db-logs:/var/log/mysql
+      - /tmp/fuckyoumysql.gofuckyourself:/etc/mysql/docker.cnf
     ports:
       - 1347:3306
-    environment:
-      MYSQL_ROOT_PASSWORD: rootpassword
   foolstack-php:
     image: legsplits/foolstack:php
     container_name: foolstack-php
@@ -25,13 +25,16 @@ services:
     environment:
       - REDIS_ENABLE=true
       - REDIS_PREFIX=foolstack_UwU_          # cancer
-      - REDIS_SERVERS='foolstack-redis:6379' # see 6379? important
+      - REDIS_SERVERS='foolstack-redis:6379' # >6379< important
     depends_on:
       - foolstack-db
       - foolstack-redis
     volumes:
-      - foolframe-temp:/var/www/foolfuuka/public/foolframe
-      - foolframe-conf:/var/www/foolfuuka/app/foolz/foolframe/config
+      - foolframe-foolframe-temp:/var/www/foolfuuka/public/foolframe/foolz
+      - foolframe-foolfuuka-temp:/var/www/foolfuuka/public/foolfuuka/foolz
+      - foolframe-foolfuuka-conf:/var/www/foolfuuka/assets/config
+      - foolframe-foolframe-conf:/var/www/foolfuuka/app/foolz/foolframe/config
+      - foolframe-foolframe-logs:/var/www/foolfuuka/app/foolz/foolframe/logs
   foolstack-nginx:
     image: legsplits/foolstack:nginx
     container_name: foolstack-nginx
@@ -42,7 +45,8 @@ services:
       - foolstack-php
       - foolstack-redis
     volumes:
-      - foolframe-temp:/var/www/foolfuuka/public/foolframe:ro
+      - foolframe-foolframe-temp:/var/www/foolfuuka/public/foolframe/foolz:ro
+      - foolframe-foolfuuka-temp:/var/www/foolfuuka/public/foolfuuka/foolz:ro
       - foolframe-boards:/var/www/foolfuuka/public/foolfuuka/boards:ro
 #    tmpfs:
 #      - /tmp
@@ -53,16 +57,27 @@ services:
     image: healthcheck/redis
     volumes:
       - foolframe-redis:/data
-  foolstack-asagi:
+  foolstack-scraper:
     image: legsplits/foolstack:asagi
-    container_name: foolstack-asagi
+    container_name: foolstack-scraper
     restart: always
     depends_on:
       - foolstack-db
     environment:
       - UID=1000
       - GID=1000
-      - ASAGI_DB_HOST=some.other.host
+    volumes:
+      - foolframe-boards:/boards
+  foolstack-scraper:
+    image: legsplits/foolstack:eve
+    container_name: foolstack-scraper
+    restart: always
+    depends_on:
+      - foolstack-db
+    environment:
+      - UID=1000
+      - GID=1000
+      - EVE_BOARDS=w
     volumes:
       - foolframe-boards:/boards
   foolstack-sphinx:
@@ -76,11 +91,19 @@ services:
 #    - ./sphinx.conf:/opt/sphinx/conf/sphinx.conf  # SphinxSE configuration file
     mem_limit: 512m # match indexer.value from sphinx.conf
 volumes:
-  foolframe-temp:   # FoolFrame generated content on the fly via php
+  foolframe-foolframe-temp:   # FoolFrame generated content on the fly via php
     driver: local
-  foolframe-conf:   # Persistent configs
+  foolframe-foolfuuka-temp:   # FoolFooka generated content on the fly via php
+    driver: local
+  foolframe-foolframe-logs:   # FoolFrame logs
+    driver: local
+  foolframe-foolfuuka-conf:   # Persistent configs
+    driver: local
+  foolframe-foolframe-conf:   # Persistent configs
     driver: local
   foolframe-db:     # Percona DB
+    driver: local
+  foolframe-db-logs:# Percona DB Logs
     driver: local
   foolframe-sphinx: # SphinxDB
     driver: local
