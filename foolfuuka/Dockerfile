@@ -7,20 +7,28 @@ RUN apk --update --no-cache --virtual foolbuild add php7-fpm php7-bcmath php7-js
     cd /var/www/foolfuuka && \
     composer dump-autoload --optimize && \
     yes y | composer install && \
-    mkdir -p /var/www/foolfuuka/app/foolz/foolfuuka/plugins/foolz /var/www/foolfuuka/public/foolframe /var/www/foolfuuka/app/foolz/foolframe/config && \
-    cd /var/www/foolfuuka/app/foolz/foolfuuka/plugins/foolz && \
-    git clone https://github.com/pleebe/foolfuuka-plugin-board-statistics.git && \
-    git clone https://github.com/FoolCode/foolfuuka-plugin-dice-roll.git && \
-    git clone https://github.com/pleebe/foolfuuka-plugin-intel-share.git && \
-    git clone https://github.com/pleebe/foolfuuka-plugin-popup-report.git && \
-    git clone https://github.com/FoolCode/foolfuuka-plugin-quests.git && \
-    git clone https://github.com/pleebe/foolfuuka-plugin-spam-guard.git && \
-    git clone https://github.com/pleebe/foolfuuka-plugin-thread-chunk.git && \
+    mkdir -p /var/www/foolfuuka/app/foolz/foolfuuka/plugins/foolz\
+             /var/www/foolfuuka/public/foolframe/foolz            \
+             /var/www/foolfuuka/public/foolfuuka/foolz             \
+             /var/www/foolfuuka/app/foolz/foolframe/config          \
+             /var/www/foolfuuka/app/foolz/foolframe/logs          && \
+    cd /var/www/foolfuuka/app/foolz/foolfuuka/plugins/foolz        && \
+    git clone https://github.com/pleebe/foolfuuka-plugin-table.git  && \
     git clone https://github.com/pleebe/foolfuuka-plugin-adverts.git && \
-    git clone https://github.com/pleebe/foolfuuka-plugin-external-links.git && \
-    git clone https://github.com/pleebe/foolfuuka-plugin-fortune.git && \
+    git clone https://github.com/pleebe/foolfuuka-plugin-fortune.git  && \
+    git clone https://github.com/FoolCode/foolfuuka-plugin-quests.git  && \
+    git clone https://github.com/pleebe/foolfuuka-plugin-spam-guard.git && \
+    git clone https://github.com/FoolCode/foolfuuka-plugin-dice-roll.git && \
+    git clone https://github.com/pleebe/foolfuuka-plugin-intel-share.git  && \
+    git clone https://github.com/pleebe/foolfuuka-plugin-popup-report.git  && \
+    git clone https://github.com/pleebe/foolfuuka-plugin-thread-chunk.git   && \
+    git clone https://github.com/pleebe/foolfuuka-plugin-external-links.git  && \
+    git clone https://github.com/pleebe/foolfuuka-plugin-board-statistics.git && \
     git clone https://github.com/pleebe/foolfuuka-plugin-cloudflare-cache-purge.git && \
-    git clone https://github.com/pleebe/foolfuuka-plugin-table.git && \
     apk del foolbuild && \
     chown -R www:www /var/www/foolfuuka
-VOLUME /var/www/foolfuuka/public/foolframe
+VOLUME [ "/var/www/foolfuuka/assets/config", \
+         "/var/www/foolfuuka/app/foolz/foolframe/config", \
+         "/var/www/foolfuuka/app/foolz/foolframe/logs", \
+         "/var/www/foolfuuka/public/foolframe/foolz", \
+         "/var/www/foolfuuka/public/foolfuuka/foolz" ]
