@@ -13,4 +13,4 @@ echo "Setting permissions to UID/GID: ${USER_ID}/${GROUP_ID}"
 chown ${USER_ID}:${GROUP_ID} -R /eve
 chown ${USER_ID}:${GROUP_ID} ${SCRAPER_IMGDIR}
 
-exec su-exec ${USER_ID}:${GROUP_ID} python3 /eve/eve.py $@
+exec su-exec ${USER_ID}:${GROUP_ID} "$@"

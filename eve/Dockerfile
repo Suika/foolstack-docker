@@ -2,8 +2,8 @@ FROM alpine:3.9
 EXPOSE 3000
 WORKDIR /eve
 ENTRYPOINT [ "/eve/entrypoint.sh"]
+CMD ["python3", "/eve/eve.py"]
 
-COPY entrypoint.sh .config.py.env /eve/
 RUN wget https://github.com/bibanon/eve/archive/master.tar.gz -qO- | tar xzf - --strip-components=1 -C /eve
 RUN apk add --update --no-cache  python3 py3-mysqlclient su-exec nodejs libintl
 RUN apk add --update --no-cache --virtual eve-build-dep gcc musl-dev python3-dev gettext \
@@ -12,8 +12,13 @@ RUN apk add --update --no-cache --virtual eve-build-dep gcc musl-dev python3-dev
     && sed -i '/toScreen(tmp, linefeed)/d' /eve/utils.py \
     && sed -i "s/filename='eve.log',//" /eve/eve.py \
     && apk del eve-build-dep \
+    && mkdir -p /boards \
     && python3 -m pip uninstall --yes setuptools pip \
     && find / | grep -E "(__pycache__|\.pyc|\.exe|\.pyo$)" | xargs rm -rf
+
+COPY entrypoint.sh .config.py.env /eve/
+
+VOLUME /boards
 
 ENV UID=${UID:-1000} \
     GID=${GID:-1000} \
