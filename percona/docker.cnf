@@ -1,0 +1,12 @@
+[mysqld]
+skip-host-cache
+# skip-name-resolve in a docker container, retarded and the bug is open for how many years
+# see https://wiki.bibanon.org/FoolFuuka/Install/Ubuntu16
+sql-mode=STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION
+log-bin-trust-function-creators = TRUE
+character-set-client-handshake = FALSE
+character-set-server = utf8mb4
+collation-server = utf8mb4_general_ci
+open-files-limit=40000
+skip-log-bin
+max-connections = 1000
