@@ -1,7 +1,4 @@
-SET GLOBAL default_storage_engine=TokuDB;
-SET GLOBAL sql_mode='';
-SET GLOBAL log_bin_trust_function_creators = 1;
-CREATE USER 'asagi'@'foolstack-scraper%' IDENTIFIED BY 'pass';  
+CREATE USER 'asagi'@'foolstack-scraper%' IDENTIFIED BY 'pass';
 CREATE USER 'foolfuuka'@'foolstack-php%' IDENTIFIED BY 'pass';
 CREATE USER 'sphinx'@'foolstack-sphinx%' IDENTIFIED BY 'pass';
 CREATE DATABASE asagi DEFAULT CHARACTER SET utf8mb4 DEFAULT COLLATE utf8mb4_general_ci;
