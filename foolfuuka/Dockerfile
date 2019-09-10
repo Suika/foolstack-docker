@@ -26,6 +26,7 @@ RUN apk --update --no-cache --virtual foolbuild add php7-fpm php7-bcmath php7-js
     git clone https://github.com/pleebe/foolfuuka-plugin-board-statistics.git  && \
     git clone https://github.com/pleebe/foolfuuka-plugin-cloudflare-cache-purge.git && \
     apk del foolbuild
+COPY docker_DatabaseSetup.php /var/www/foolfuuka/vendor/foolz/foolframe/assets/themes-admin/foolz/foolframe-theme-admin/src/Partial/Install/DatabaseSetup.php
 
 FROM alpine:latest
 RUN adduser -D -g 'www' www
