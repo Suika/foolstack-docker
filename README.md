@@ -4,30 +4,35 @@ A full FoolFuuka stack on top of docker to remove the setup overhead and allow p
 
 `docker container run -ti --rm --volumes-from foolstack-sphinx --net=container:foolstack-sphinx --name foolstack-sphinx-index manticoresearch/manticore:latest indexer --rotate --all`
 
-```
-version: '2'
+```yaml
+version: "2.1"
 services:
   foolstack-db:
     image: legsplits/foolstack:percona # because fuck the standard mysql docker configs
     container_name: foolstack-db
     restart: always
+    networks:
+      - foolstack
     environment:
       MYSQL_ROOT_PASSWORD: pass
     volumes:
       - foolframe-db:/var/lib/mysql
       - foolframe-db-logs:/var/log/mysql
-      - ./sql/db-init.sql:/docker-entrypoint-initdb.d/db-init.sql:ro # IMPORTANT!
   foolstack-php:
     image: legsplits/foolstack:php
     container_name: foolstack-php
     restart: always
+    networks:
+      - foolstack
     environment:
       - REDIS_ENABLE=true
-      - REDIS_PREFIX=foolstack_UwU_          # cancer
-      - REDIS_SERVERS='foolstack-redis:6379' # >6379< important
+      - REDIS_PREFIX=foolstack_UwU_
+      - REDIS_SERVERS='foolstack-redis:6379'
     depends_on:
-      - foolstack-db
-      - foolstack-redis
+      foolstack-db:
+          condition: service_healthy
+      foolstack-redis:
+          condition: service_healthy
     volumes:
       - foolframe-foolframe-temp:/var/www/foolfuuka/public/foolframe/foolz
       - foolframe-foolfuuka-temp:/var/www/foolfuuka/public/foolfuuka/foolz
@@ -40,10 +45,15 @@ services:
     container_name: foolstack-nginx
 #    read_only: true
     restart: always
+    networks:
+      - foolstack
     depends_on:
-      - foolstack-db
-      - foolstack-php
-      - foolstack-redis
+      foolstack-db:
+        condition: service_healthy
+      foolstack-php:
+        condition: service_healthy
+      foolstack-redis:
+        condition: service_healthy
     volumes:
       - foolframe-foolframe-temp:/var/www/foolfuuka/public/foolframe/foolz:ro
       - foolframe-foolfuuka-temp:/var/www/foolfuuka/public/foolfuuka/foolz:ro
@@ -55,14 +65,20 @@ services:
   foolstack-redis:
     container_name: foolstack-redis
     image: healthcheck/redis
+    restart: always
+    networks:
+      - foolstack
     volumes:
       - foolframe-redis:/data
   foolstack-scraper:
-    image: legsplits/foolstack:asagi # :asagi :eve :hayden
+    image: legsplits/foolstack:eve # :asagi :eve :hayden
     container_name: foolstack-scraper
     restart: always
+    networks:
+      - foolstack
     depends_on:
-      - foolstack-db
+      foolstack-db:
+        condition: service_healthy
     environment:
       - UID=1000
       - GID=1000
@@ -75,8 +91,11 @@ services:
     image: manticoresearch/manticore:latest
     container_name: foolstack-sphinx
     restart: always
+    networks:
+      - foolstack
     depends_on:
-      - foolstack-db
+      foolstack-db:
+        condition: service_healthy
     volumes:
     - foolframe-sphinx:/var/lib/manticore  # directory where sphinx will store index data
 #    - ./sphinx.conf:/etc/sphinxsearch/sphinx.conf  # SphinxSE configuration file
@@ -102,4 +121,7 @@ volumes:
     driver: local
   foolframe-redis:              # Redis
     driver: local
+networks:
+  foolstack:
+    name: foolstack
 ```
