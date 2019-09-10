@@ -1,6 +1,5 @@
 FROM alpine:latest
 ARG COMPOSER_AUTH={}
-RUN adduser -D -g 'www' www
 RUN apk --update --no-cache --virtual foolbuild add php7-fpm php7-bcmath php7-json php7-opcache php7-curl php7-mbstring php7-gd php7-zip php7-xml php7-pdo_mysql git composer && \
     mkdir -p /var/www/foolfuuka && \
     wget https://github.com/pleebe/FoolFuuka/archive/master.tar.gz -qO- | tar xzf - --strip-components=1 -C /var/www/foolfuuka && \
@@ -11,23 +10,27 @@ RUN apk --update --no-cache --virtual foolbuild add php7-fpm php7-bcmath php7-js
              /var/www/foolfuuka/public/foolframe/foolz            \
              /var/www/foolfuuka/public/foolfuuka/foolz             \
              /var/www/foolfuuka/app/foolz/foolframe/config          \
-             /var/www/foolfuuka/app/foolz/foolframe/logs          && \
-    cd /var/www/foolfuuka/app/foolz/foolfuuka/plugins/foolz        && \
-    git clone https://github.com/pleebe/foolfuuka-plugin-table.git  && \
-    git clone https://github.com/pleebe/foolfuuka-plugin-adverts.git && \
-    git clone https://github.com/pleebe/foolfuuka-plugin-fortune.git  && \
-    git clone https://github.com/FoolCode/foolfuuka-plugin-quests.git  && \
-    git clone https://github.com/pleebe/foolfuuka-plugin-spam-guard.git && \
-    git clone https://github.com/FoolCode/foolfuuka-plugin-dice-roll.git && \
-    git clone https://github.com/pleebe/foolfuuka-plugin-intel-share.git  && \
-    git clone https://github.com/pleebe/foolfuuka-plugin-popup-report.git  && \
-    git clone https://github.com/pleebe/foolfuuka-plugin-thread-chunk.git   && \
-    git clone https://github.com/pleebe/foolfuuka-plugin-external-links.git  && \
-    git clone https://github.com/pleebe/foolfuuka-plugin-board-statistics.git && \
+             /var/www/foolfuuka/app/foolz/foolfuuka/config           \
+             /var/www/foolfuuka/app/foolz/foolframe/logs           && \
+    cd /var/www/foolfuuka/app/foolz/foolfuuka/plugins/foolz         && \
+    git clone https://github.com/pleebe/foolfuuka-plugin-table.git   && \
+    git clone https://github.com/pleebe/foolfuuka-plugin-adverts.git  && \
+    git clone https://github.com/pleebe/foolfuuka-plugin-fortune.git   && \
+    git clone https://github.com/FoolCode/foolfuuka-plugin-quests.git   && \
+    git clone https://github.com/pleebe/foolfuuka-plugin-spam-guard.git  && \
+    git clone https://github.com/FoolCode/foolfuuka-plugin-dice-roll.git  && \
+    git clone https://github.com/pleebe/foolfuuka-plugin-intel-share.git   && \
+    git clone https://github.com/pleebe/foolfuuka-plugin-popup-report.git   && \
+    git clone https://github.com/pleebe/foolfuuka-plugin-thread-chunk.git    && \
+    git clone https://github.com/pleebe/foolfuuka-plugin-external-links.git   && \
+    git clone https://github.com/pleebe/foolfuuka-plugin-board-statistics.git  && \
     git clone https://github.com/pleebe/foolfuuka-plugin-cloudflare-cache-purge.git && \
-    apk del foolbuild && \
-    chown -R www:www /var/www/foolfuuka
-VOLUME [ "/var/www/foolfuuka/assets/config", \
+    apk del foolbuild
+
+FROM alpine:latest
+RUN adduser -D -g 'www' www
+COPY --from=0 --chown=www:www /var/www/foolfuuka /var/www/foolfuuka
+VOLUME [ "/var/www/foolfuuka/app/foolz/foolfuuka/config", \
          "/var/www/foolfuuka/app/foolz/foolframe/config", \
          "/var/www/foolfuuka/app/foolz/foolframe/logs", \
          "/var/www/foolfuuka/public/foolframe/foolz", \
