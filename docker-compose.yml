@@ -4,20 +4,23 @@ services:
     image: legsplits/foolstack:percona # because fuck the standard mysql docker configs
     container_name: foolstack-db
     restart: always
+    networks:
+      - foolstack
     environment:
       MYSQL_ROOT_PASSWORD: pass
     volumes:
       - foolframe-db:/var/lib/mysql
       - foolframe-db-logs:/var/log/mysql
-#      - ./percona/db-init.sql:/docker-entrypoint-initdb.d/db-init.sql:ro # mount for different credentials
   foolstack-php:
     image: legsplits/foolstack:php
     container_name: foolstack-php
     restart: always
+    networks:
+      - foolstack
     environment:
-        REDIS_ENABLE: true
-        REDIS_PREFIX: foolstack_UwU_          # cancer
-        REDIS_SERVERS: 'foolstack-redis:6379' # >6379< important
+        - REDIS_ENABLE=true
+        - REDIS_PREFIX=foolstack_UwU_
+        - REDIS_SERVERS='foolstack-redis:6379'
     depends_on:
       foolstack-db:
           condition: service_healthy
@@ -35,6 +38,8 @@ services:
     container_name: foolstack-nginx
 #    read_only: true
     restart: always
+    networks:
+      - foolstack
     depends_on:
       foolstack-db:
         condition: service_healthy
@@ -53,27 +58,34 @@ services:
   foolstack-redis:
     container_name: foolstack-redis
     image: healthcheck/redis
+    restart: always
+    networks:
+      - foolstack
     volumes:
       - foolframe-redis:/data
   foolstack-scraper:
-    image: legsplits/foolstack:asagi # :asagi :eve :hayden
+    image: legsplits/foolstack:eve # :asagi :eve :hayden
     container_name: foolstack-scraper
     restart: always
+    networks:
+      - foolstack
     depends_on:
       foolstack-db:
         condition: service_healthy
     environment:
-        UID: 1000
-        GID: 1000
-        SCRAPER_BOARDS: w,wg
-        SCRAPER_DOWNLOAD_MEDIA: False     # true/false if hayden, True/False if eve
-        SCRAPER_DOWNLOAD_THUMBS: False    # true/false if hayden, True/False if eve
+        - UID=1000
+        - GID=1000
+        - SCRAPER_BOARDS=w,wg
+        - SCRAPER_DOWNLOAD_MEDIA=False     # true/false if hayden, True/False if eve
+        - SCRAPER_DOWNLOAD_THUMBS=False    # true/false if hayden, True/False if eve
     volumes:
       - foolframe-boards:/boards
   foolstack-sphinx:
     image: manticoresearch/manticore:latest
     container_name: foolstack-sphinx
     restart: always
+    networks:
+      - foolstack
     depends_on:
       foolstack-db:
         condition: service_healthy
@@ -102,3 +114,6 @@ volumes:
     driver: local
   foolframe-redis:              # Redis
     driver: local
+networks:
+  foolstack:
+    name: foolstack
