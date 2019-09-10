@@ -1,7 +1,5 @@
 #!/bin/sh
 
-set -xe
-
 USER_ID=${UID}
 GROUP_ID=${GID}
 

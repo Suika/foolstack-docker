@@ -1,7 +1,7 @@
 FROM alpine:3.9
 EXPOSE 3000
 WORKDIR /eve
-ENTRYPOINT [ "/eve/entrypoint.sh"]
+ENTRYPOINT [ "sh", "/eve/entrypoint.sh"]
 CMD ["python3", "/eve/eve.py"]
 
 RUN wget https://github.com/bibanon/eve/archive/master.tar.gz -qO- | tar xzf - --strip-components=1 -C /eve

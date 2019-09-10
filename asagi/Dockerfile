@@ -5,7 +5,7 @@ RUN git clone https://github.com/desuarchive/asagi.git /asagi
 RUN mvn package assembly:single
 
 FROM ubuntu:rolling
-ENTRYPOINT ["/asagi/entrypoint.sh"]
+ENTRYPOINT ["sh", "/asagi/entrypoint.sh"]
 CMD ["java", "-XX:+UseParallelGC", "-XX:+UseParallelOldGC", "-verbose:gc", "-jar", "asagi.jar"]
 WORKDIR /asagi
 

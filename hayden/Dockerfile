@@ -2,7 +2,7 @@ FROM microsoft/dotnet:latest as builder
 RUN git clone https://github.com/bbepis/Hayden build && cd /build && dotnet publish -r linux-musl-x64 -o /hayden ; exit 0
 
 FROM alpine:latest
-ENTRYPOINT ["/hayden/entrypoint.sh"]
+ENTRYPOINT ["sh", "/hayden/entrypoint.sh"]
 CMD ["/hayden/Hayden", "/hayden/config.json"]
 WORKDIR /hayden
 
