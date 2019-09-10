@@ -1,4 +1,4 @@
-# Hay[D]enn in docker
+# Hay[D]en in docker
 [Hayden](https://github.com/bbepis/Hayden) is an altearnative to asagi with the focus of minimal resources swasted.
 
 Need to fix the permissions, it runs as `root` as of now. But other than that, just mount to the config into `/hayden/Hayden/config.json` and let it run.
