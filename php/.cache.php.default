@@ -1,9 +1,0 @@
-<?php 
-return array (
-  'type' => 'dummy',
-  'format' => 'smart_json',
-  'prefix' => 'foolframe_X1q_',
-  'servers' => 
-  array (
-  ),
-);
