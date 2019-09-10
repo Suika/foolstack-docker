@@ -17,10 +17,6 @@ services:
     restart: always
     networks:
       - foolstack
-    environment:
-      - REDIS_ENABLE=true
-      - REDIS_PREFIX=foolstack_UwU_
-      - REDIS_SERVERS='foolstack-redis:6379'
     depends_on:
       foolstack-db:
           condition: service_healthy
