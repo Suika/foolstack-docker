@@ -1,4 +1,4 @@
-CREATE USER 'asagi'@'foolstack-scraper%' IDENTIFIED BY 'pass';
+CREATE USER 'asagi'@'foolstack-scraper%' IDENTIFIED BY 'pass';  
 CREATE USER 'foolfuuka'@'foolstack-php%' IDENTIFIED BY 'pass';
 CREATE USER 'sphinx'@'foolstack-sphinx%' IDENTIFIED BY 'pass';
 CREATE DATABASE asagi DEFAULT CHARACTER SET utf8mb4 DEFAULT COLLATE utf8mb4_general_ci;
