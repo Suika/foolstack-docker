@@ -25,7 +25,7 @@ services:
     volumes:
       - foolframe-foolframe-temp:/var/www/foolfuuka/public/foolframe/foolz
       - foolframe-foolfuuka-temp:/var/www/foolfuuka/public/foolfuuka/foolz
-      - foolframe-foolfuuka-conf:/var/www/foolfuuka/assets/config
+      - foolframe-foolfuuka-conf:/var/www/foolfuuka/app/foolz/foolfuuka/config
       - foolframe-foolframe-conf:/var/www/foolfuuka/app/foolz/foolframe/config
       - foolframe-foolframe-logs:/var/www/foolfuuka/app/foolz/foolframe/logs
 #      - foolframe-boards:/var/www/foolfuuka/public/foolfuuka/boards # uncomment for image upload by foolfuuka

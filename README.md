@@ -2,7 +2,7 @@
 
 A full FoolFuuka stack on top of docker to remove the setup overhead and allow portability.
 
-`docker container run -ti --rm --volumes-from foolstack-sphinx --net=container:foolstack-sphinx --name foolstack-sphinx-index manticoresearch/manticore:latest indexer --rotate --all`
+Trigger search indexing: `docker container run -t -d --rm --volumes-from foolstack-sphinx --net=container:foolstack-sphinx --name foolstack-sphinx-index manticoresearch/manticore:latest indexer --rotate --all`
 
 ```yaml
 version: "2.1"
@@ -24,10 +24,6 @@ services:
     restart: always
     networks:
       - foolstack
-    environment:
-      - REDIS_ENABLE=true
-      - REDIS_PREFIX=foolstack_UwU_
-      - REDIS_SERVERS='foolstack-redis:6379'
     depends_on:
       foolstack-db:
           condition: service_healthy
@@ -36,7 +32,7 @@ services:
     volumes:
       - foolframe-foolframe-temp:/var/www/foolfuuka/public/foolframe/foolz
       - foolframe-foolfuuka-temp:/var/www/foolfuuka/public/foolfuuka/foolz
-      - foolframe-foolfuuka-conf:/var/www/foolfuuka/assets/config
+      - foolframe-foolfuuka-conf:/var/www/foolfuuka/app/foolz/foolfuuka/config
       - foolframe-foolframe-conf:/var/www/foolfuuka/app/foolz/foolframe/config
       - foolframe-foolframe-logs:/var/www/foolfuuka/app/foolz/foolframe/logs
 #      - foolframe-boards:/var/www/foolfuuka/public/foolfuuka/boards # uncomment for image upload by foolfuuka
