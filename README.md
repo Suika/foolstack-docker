@@ -2,6 +2,15 @@
 
 A full FoolFuuka stack on top of docker to remove the setup overhead and allow portability.
 
+1. Save docker-compose.yml (and maybe .env) on your system. Edit `foolstack-scraper` environment
+2. `docker-compose up -d` (see sphinx fail, that is to be expected)
+3. Visit http://yourhost:1346 and then  Next > Next > Next > Your Credentials > Next > Login
+4. Goto *General* and hit *Submit*, goto *Preferences*, reload and hit *Submit*
+5. Goto *Manage* and add your boards that you defined in `foolstack-scraper` environment
+6. Goto *Search* hit *Save* then *Generate Config* and copy it into the `foolframe-sphinx-config` volume
+7. ^`docker volume ls`, `docker volume insepct foolstack_foolframe-sphinx-config`, goto *Mountpoint* and save into sphinx.conf
+8. Run "Trigger search indexing" (see bellow), restart `foolstack-sphinx` container and run indexer again. Takes time till it works.
+
 Trigger search indexing: `docker container run -t -d --rm --volumes-from foolstack-sphinx --net=container:foolstack-sphinx --name foolstack-sphinx-index manticoresearch/manticore:latest indexer --rotate --all`
 
 ```yaml
