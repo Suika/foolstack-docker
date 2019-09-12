@@ -2,7 +2,7 @@
 
 A full FoolFuuka stack on top of docker to remove the setup overhead and allow portability.
 
-1. Save docker-compose.yml (and maybe .env) on your system. Edit `foolstack-scraper` environment
+1. Save [docker-compose.yml](docker-compose.yml) (and maybe .env) on your system. Edit `foolstack-scraper` environment
 2. `docker-compose up -d` (see sphinx fail, that is to be expected)
 3. Visit http://yourhost:1346 and then  Next > Next > Next > Your Credentials > Next > Login
 4. Goto *General* and hit *Submit*, goto *Preferences*, reload and hit *Submit*
