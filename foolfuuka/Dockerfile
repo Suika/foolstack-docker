@@ -25,8 +25,12 @@ RUN apk --update --no-cache --virtual foolbuild add php7-fpm php7-bcmath php7-js
     git clone https://github.com/pleebe/foolfuuka-plugin-external-links.git   && \
     git clone https://github.com/pleebe/foolfuuka-plugin-board-statistics.git  && \
     git clone https://github.com/pleebe/foolfuuka-plugin-cloudflare-cache-purge.git && \
+    sed -i 's/timestamp/timestamped/g' /var/www/foolfuuka/src/Model/Search.php && \
     apk del foolbuild
 COPY docker_DatabaseSetup.php /var/www/foolfuuka/vendor/foolz/foolframe/assets/themes-admin/foolz/foolframe-theme-admin/src/Partial/Install/DatabaseSetup.php
+COPY foolframe_package.php /var/www/foolfuuka/app/foolz/foolframe/config/package.php
+COPY foolfuuka_package.php /var/www/foolfuuka/app/foolz/foolfuuka/config/package.php
+COPY SphinxDistConfig.php SphinxConfig.php /var/www/foolfuuka/assets/themes-admin/foolz/foolfuuka-theme-admin/src/Partial/Boards/
 
 FROM alpine:latest
 RUN adduser -D -g 'www' www
