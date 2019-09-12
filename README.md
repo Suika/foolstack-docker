@@ -11,7 +11,8 @@ A full FoolFuuka stack on top of docker to remove the setup overhead and allow p
 7. ^`docker volume ls`, `docker volume insepct foolstack_foolframe-sphinx-config`, goto *Mountpoint* and save into sphinx.conf
 8. Run "Trigger search indexing" (see bellow), restart `foolstack-sphinx` container and run indexer again. Takes time till it works.
 
-Trigger search indexing: `docker container run -t -d --rm --volumes-from foolstack-sphinx --net=container:foolstack-sphinx --name foolstack-sphinx-index manticoresearch/manticore:latest indexer --rotate --all`
+Trigger search indexing: `docker container run -ti --rm --volumes-from foolstack-sphinx --net=container:foolstack-sphinx --name foolstack-sphinx-index manticoresearch/manticore:latest indexer --rotate --all`
+Trigger background search indexing: `docker container run -t -d --rm --volumes-from foolstack-sphinx --net=container:foolstack-sphinx --name foolstack-sphinx-index manticoresearch/manticore:latest indexer --rotate --all`
 
 ```yaml
 version: "2.1"
