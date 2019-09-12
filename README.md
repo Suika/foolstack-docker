@@ -93,8 +93,8 @@ services:
       foolstack-db:
         condition: service_healthy
     volumes:
-    - foolframe-sphinx:/var/lib/manticore  # directory where sphinx will store index data
-#    - ./sphinx.conf:/etc/sphinxsearch/sphinx.conf  # SphinxSE configuration file
+    - foolframe-sphinx-data:/var/lib/manticore  # directory where sphinx will store index data
+    - foolframe-sphinx-config:/etc/sphinxsearch  # SphinxSE configuration file
     mem_limit: 512m # match indexer.value from sphinx.conf
 volumes:
   foolframe-foolframe-temp:     # FoolFrame generated content on the fly via php
@@ -111,7 +111,9 @@ volumes:
     driver: local
   foolframe-db-logs:            # Percona DB Logs
     driver: local
-  foolframe-sphinx:             # SphinxDB
+  foolframe-sphinx-data:        # SphinxDB
+    driver: local
+  foolframe-sphinx-config:      # MantiCore Config
     driver: local
   foolframe-boards:             # Downloaded images and thumbs
     driver: local
