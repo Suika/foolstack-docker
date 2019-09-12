@@ -67,7 +67,8 @@ return [
             'dir' => '/var/lib/manticore',
             'min_word' => 3,
             'memory' => 2047,
-            'enable_cache' => false,
+            'global' => true,
+            'enable_cache' => true,
             'cache_timeout' => 180
         ],
 
