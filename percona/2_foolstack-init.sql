@@ -8,5 +8,6 @@ GRANT ALL PRIVILEGES ON `asagi`. * TO 'asagi'@'foolstack-scraper%';
 GRANT ALL PRIVILEGES ON `asagi`. * TO 'foolfuuka'@'foolstack-php%';
 GRANT ALL PRIVILEGES ON `foolfuuka`. * TO 'foolfuuka'@'foolstack-php%';
 GRANT SELECT ON `asagi`.* TO 'sphinx'@'foolstack-sphinx%';
+GRANT SELECT ON `foolfuuka`.`ff_boards` TO 'sphinx'@'foolstack-sphinx%';
 GRANT SELECT, INSERT, UPDATE, DELETE, CREATE, DROP, REFERENCES, INDEX, ALTER, CREATE VIEW, TRIGGER, SHOW VIEW ON `asagi`.`index_counters` TO 'sphinx'@'foolstack-sphinx%' WITH GRANT OPTION;
 FLUSH PRIVILEGES;

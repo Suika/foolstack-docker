@@ -10,7 +10,7 @@ RUN apk --update --no-cache add php7-fpm php7-bcmath php7-json php7-opcache php7
     apk add gnu-libiconv --update --update-cache --no-cache --repository http://dl-cdn.alpinelinux.org/alpine/edge/community/ --allow-untrusted
 COPY www.conf /etc/php7/php-fpm.d/www.conf
 COPY php.ini /etc/php7/php.ini
-COPY entrypoint.sh .cache.php.env .config.php.env php-fpm-healthcheck /
+COPY entrypoint.sh .foolframe.cache.php.env .foolframe.db.php.env .foolframe.config.php.env .foolfuuka.config.php.env php-fpm-healthcheck /
 ENV LD_PRELOAD=/usr/lib/preloadable_libiconv.so \
     FPM_PM=dynamic \
     FPM_PM_MAX_CHILDREN=5 \
@@ -21,4 +21,13 @@ ENV LD_PRELOAD=/usr/lib/preloadable_libiconv.so \
     REDIS_PREFIX=foolframe_OwO_ \
     REDIS_SERVERS="'foolstack-redis:6379'" \
     LANG=en_US.UTF-8 \
-    LANGUAGE=en_US.UTF-8
+    LANGUAGE=en_US.UTF-8 \
+    DB_DRIVER=pdo_mysql \
+    DB_HOST=foolstack-db \
+    DB_PORT=3306 \
+    DB_NAME=foolfuuka \
+    DB_USER=foolfuuka \
+    DB_PASS=pass \
+    DB_CHARSET=utf8mb4 \
+    DB_PREFIX=ff_ \
+    COOKIE_PREFIX=foolframe_ugay_
