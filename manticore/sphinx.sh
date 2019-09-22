@@ -1,7 +1,7 @@
-#!/bin/sh
+#!/bin/bash
 
 export MYSQL_PWD=${DB_FOOLFUUKA_PASS}
-export MAIN_TABLE=$(echo "SELECT shortname FROM ${DB_FOOLFUUKA_NAME}.ff_boards WHERE sphinx = 1 ORDER BY id DESC;" | mysql --host=${DB_HOST} --user=${DB_SPHINX_USER} --password=${DB_SPHINX_PASS} --silent --skip-column-names ${DB_FOOLFUUKA_NAME})
+export MAIN_TABLE=$(echo "SELECT shortname FROM ${DB_FOOLFUUKA_NAME}.ff_boards WHERE sphinx = 1 ORDER BY id ASC;" | mysql --host=${DB_HOST} --user=${DB_SPHINX_USER} --password=${DB_SPHINX_PASS} --silent --skip-column-names ${DB_FOOLFUUKA_NAME} | head -n 1)
 cat << EOF
 ###########################################
 ## Sphinx Configuration File for FoolFuuka
