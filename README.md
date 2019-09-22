@@ -10,6 +10,7 @@ A full FoolFuuka stack on top of docker to remove the setup overhead and allow p
 6. Restart the `foolstack-sphinx` container
 
 Trigger search indexing: `docker container run -ti --rm --volumes-from foolstack-sphinx --net=container:foolstack-sphinx --name foolstack-sphinx-index legsplits/foolstack:manticore indexer --rotate --all`
+
 Trigger background search indexing: `docker container run -t -d --rm --volumes-from foolstack-sphinx --net=container:foolstack-sphinx --name foolstack-sphinx-index legsplits/foolstack:manticore indexer --rotate --all`
 
 Dunno why `docker exec -it foolstack-sphinx indexer --rotate --all` is killed. If you do, drop an issue.
