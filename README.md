@@ -3,22 +3,22 @@
 A full FoolFuuka stack on top of docker to remove the setup overhead and allow portability.
 
 1. Save [docker-compose.yml](docker-compose.yml) (and maybe .env) on your system. Edit `foolstack-scraper` environment
-2. `docker-compose up -d` (see sphinx fail, that is to be expected)
-3. Visit http://yourhost:1346 and then  Next > Next > Next > Your Credentials > Next > Login
-4. Goto *General* and hit *Submit*, goto *Preferences*, reload and hit *Submit*
-5. Goto *Manage* and add your boards that you defined in `foolstack-scraper` environment
-6. Goto *Search* hit *Save* then *Generate Config* and copy it into the `foolframe-sphinx-config` volume
-7. ^`docker volume ls`, `docker volume insepct foolstack_foolframe-sphinx-config`, goto *Mountpoint* and save into sphinx.conf
-8. Run "Trigger search indexing" (see bellow), restart `foolstack-sphinx` container and run indexer again. Takes time till it works.
+2. Adjust `foolstack-scraper` and add the boards you wish to archive
+3. `docker-compose up -d` >>  http://yourhost:8080/admin Login:`admin:admin`
+4. Add the boards, that you defined in `foolstack-scraper`, in the webui.
+5. Run "Trigger search indexing" (see bellow). You will get ERRORS, just run it again till none are displayed.
+6. Restart the `foolstack-sphinx` container
 
-Trigger search indexing: `docker container run -ti --rm --volumes-from foolstack-sphinx --net=container:foolstack-sphinx --name foolstack-sphinx-index manticoresearch/manticore:latest indexer --rotate --all`
-Trigger background search indexing: `docker container run -t -d --rm --volumes-from foolstack-sphinx --net=container:foolstack-sphinx --name foolstack-sphinx-index manticoresearch/manticore:latest indexer --rotate --all`
+Trigger search indexing: `docker container run -ti --rm --volumes-from foolstack-sphinx --net=container:foolstack-sphinx --name foolstack-sphinx-index legsplits/foolstack:manticore indexer --rotate --all`
+Trigger background search indexing: `docker container run -t -d --rm --volumes-from foolstack-sphinx --net=container:foolstack-sphinx --name foolstack-sphinx-index legsplits/foolstack:manticore indexer --rotate --all`
+
+Dunno why `docker exec -it foolstack-sphinx indexer --rotate --all` is killed. If you do, drop an issue.
 
 ```yaml
 version: "2.1"
 services:
   foolstack-db:
-    image: legsplits/foolstack:percona # because fuck the standard mysql docker configs
+    image: legsplits/foolstack:percona
     container_name: foolstack-db
     restart: always
     networks:
@@ -26,8 +26,8 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: pass
     volumes:
-      - foolframe-db:/var/lib/mysql
-      - foolframe-db-logs:/var/log/mysql
+      - ff-db:/var/lib/mysql
+      - ff-db-logs:/var/log/mysql
   foolstack-php:
     image: legsplits/foolstack:php
     container_name: foolstack-php
@@ -40,16 +40,15 @@ services:
       foolstack-redis:
           condition: service_healthy
     volumes:
-      - foolframe-foolframe-temp:/var/www/foolfuuka/public/foolframe/foolz
-      - foolframe-foolfuuka-temp:/var/www/foolfuuka/public/foolfuuka/foolz
-      - foolframe-foolfuuka-conf:/var/www/foolfuuka/app/foolz/foolfuuka/config
-      - foolframe-foolframe-conf:/var/www/foolfuuka/app/foolz/foolframe/config
-      - foolframe-foolframe-logs:/var/www/foolfuuka/app/foolz/foolframe/logs
-#      - foolframe-boards:/var/www/foolfuuka/public/foolfuuka/boards # uncomment for image upload by foolfuuka
+      - ff-foolframe-temp:/var/www/foolfuuka/public/foolframe/foolz
+      - ff-foolfuuka-temp:/var/www/foolfuuka/public/foolfuuka/foolz
+      - ff-foolfuuka-conf:/var/www/foolfuuka/app/foolz/foolfuuka/config
+      - ff-foolframe-conf:/var/www/foolfuuka/app/foolz/foolframe/config
+      - ff-foolframe-logs:/var/www/foolfuuka/app/foolz/foolframe/logs
+#      - ff-boards:/var/www/foolfuuka/public/foolfuuka/boards # uncomment for image uploads by foolfuuka
   foolstack-nginx:
     image: legsplits/foolstack:nginx
     container_name: foolstack-nginx
-#    read_only: true
     restart: always
     networks:
       - foolstack
@@ -61,13 +60,11 @@ services:
       foolstack-redis:
         condition: service_healthy
     volumes:
-      - foolframe-foolframe-temp:/var/www/foolfuuka/public/foolframe/foolz:ro
-      - foolframe-foolfuuka-temp:/var/www/foolfuuka/public/foolfuuka/foolz:ro
-      - foolframe-boards:/var/www/foolfuuka/public/foolfuuka/boards:ro
-#    tmpfs:
-#      - /tmp
+      - ff-foolframe-temp:/var/www/foolfuuka/public/foolframe/foolz:ro
+      - ff-foolfuuka-temp:/var/www/foolfuuka/public/foolfuuka/foolz:ro
+      - ff-boards:/var/www/foolfuuka/public/foolfuuka/boards:ro
     ports:
-      - 1346:80
+      - 8080:80
   foolstack-redis:
     container_name: foolstack-redis
     image: healthcheck/redis
@@ -75,9 +72,9 @@ services:
     networks:
       - foolstack
     volumes:
-      - foolframe-redis:/data
+      - ff-redis:/data
   foolstack-scraper:
-    image: legsplits/foolstack:eve # :asagi :eve :hayden
+    image: legsplits/foolstack:hayden # :asagi :eve :hayden
     container_name: foolstack-scraper
     restart: always
     networks:
@@ -86,15 +83,13 @@ services:
       foolstack-db:
         condition: service_healthy
     environment:
-      - UID=1000
-      - GID=1000
       - SCRAPER_BOARDS=w,wg
-      - SCRAPER_DOWNLOAD_MEDIA=False     # true/false if hayden, True/False if eve
-      - SCRAPER_DOWNLOAD_THUMBS=False    # true/false if hayden, True/False if eve
+      - SCRAPER_DOWNLOAD_MEDIA=true     # true/false if hayden, True/False if eve
+      - SCRAPER_DOWNLOAD_THUMBS=true    # true/false if hayden, True/False if eve
     volumes:
-      - foolframe-boards:/boards
+      - ff-boards:/boards
   foolstack-sphinx:
-    image: manticoresearch/manticore:latest
+    image: legsplits/foolstack:manticore
     container_name: foolstack-sphinx
     restart: always
     networks:
@@ -103,31 +98,30 @@ services:
       foolstack-db:
         condition: service_healthy
     volumes:
-    - foolframe-sphinx-data:/var/lib/manticore  # directory where sphinx will store index data
-    - foolframe-sphinx-config:/etc/sphinxsearch  # SphinxSE configuration file
-    mem_limit: 512m # match indexer.value from sphinx.conf
+      - ff-sphinx-data:/var/lib/manticore
+      - ff-sphinx-logs:/var/log/manticore
 volumes:
-  foolframe-foolframe-temp:     # FoolFrame generated content on the fly via php
+  ff-foolframe-temp:     # FoolFrame generated content on the fly via php
     driver: local
-  foolframe-foolfuuka-temp:     # FoolFooka generated content on the fly via php
+  ff-foolfuuka-temp:     # FoolFuuka generated content on the fly via php
     driver: local
-  foolframe-foolframe-logs:     # FoolFrame logs
+  ff-foolframe-logs:     # FoolFrame logs
     driver: local
-  foolframe-foolfuuka-conf:     # Persistent configs
+  ff-foolfuuka-conf:     # Persistent configs
     driver: local
-  foolframe-foolframe-conf:     # Persistent configs
+  ff-foolframe-conf:     # Persistent configs
     driver: local
-  foolframe-db:                 # Percona DB
+  ff-db:                 # Percona DB
     driver: local
-  foolframe-db-logs:            # Percona DB Logs
+  ff-db-logs:            # Percona DB Logs
     driver: local
-  foolframe-sphinx-data:        # SphinxDB
+  ff-sphinx-data:        # MantiCore DB
     driver: local
-  foolframe-sphinx-config:      # MantiCore Config
+  ff-sphinx-logs:        # MantiCore Logs
     driver: local
-  foolframe-boards:             # Downloaded images and thumbs
+  ff-boards:             # Downloaded images and thumbs
     driver: local
-  foolframe-redis:              # Redis
+  ff-redis:              # Redis
     driver: local
 networks:
   foolstack:
