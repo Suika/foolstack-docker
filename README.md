@@ -85,8 +85,8 @@ services:
         condition: service_healthy
     environment:
       - SCRAPER_BOARDS=w,wg
-      - SCRAPER_DOWNLOAD_MEDIA=true     # true/false if hayden, True/False if eve
-      - SCRAPER_DOWNLOAD_THUMBS=true    # true/false if hayden, True/False if eve
+      - SCRAPER_DOWNLOAD_MEDIA=True
+      - SCRAPER_DOWNLOAD_THUMBS=True
     volumes:
       - ff-boards:/boards
   foolstack-sphinx:
