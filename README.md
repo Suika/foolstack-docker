@@ -15,6 +15,12 @@ Trigger background search indexing: `docker container run -t -d --rm --volumes-f
 
 Dunno why `docker exec -it foolstack-sphinx indexer --rotate --all` is killed. If you do, drop an issue.
 
+### Permission
+If you are binding directories:
+ * ff-db `999:999`
+ * ff-sphinx-data: `101:101`
+ * The rest is `1000:1000`
+----------------------
 ```yaml
 version: "2.1"
 services:
