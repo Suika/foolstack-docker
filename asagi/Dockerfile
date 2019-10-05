@@ -1,6 +1,7 @@
 FROM alpine:latest
 WORKDIR /asagi
 RUN apk add git maven openjdk11
+ADD https://api.github.com/repos/desuarchive/asagi/git/refs/heads/master /version.json
 RUN git clone https://github.com/desuarchive/asagi.git /asagi
 RUN mvn package assembly:single
 

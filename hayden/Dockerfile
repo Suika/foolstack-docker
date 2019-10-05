@@ -1,4 +1,5 @@
-FROM microsoft/dotnet:latest as builder
+FROM mcr.microsoft.com/dotnet/core/sdk:3.0 as builder
+ADD https://api.github.com/repos/bbepis/Hayden/git/refs/heads/master /version.json
 RUN git clone https://github.com/bbepis/Hayden build && cd /build && dotnet publish -r linux-musl-x64 -o /hayden ; exit 0
 
 FROM alpine:latest

@@ -1,5 +1,6 @@
 FROM alpine:latest
 ARG COMPOSER_AUTH={}
+ADD https://api.github.com/repos/pleebe/FoolFuuka/git/refs/heads/master /version.json
 RUN apk --update --no-cache --virtual foolbuild add php7-fpm php7-bcmath php7-json php7-opcache php7-curl php7-mbstring php7-gd php7-zip php7-xml php7-pdo_mysql git composer && \
     mkdir -p /var/www/foolfuuka && \
     wget https://github.com/pleebe/FoolFuuka/archive/master.tar.gz -qO- | tar xzf - --strip-components=1 -C /var/www/foolfuuka && \

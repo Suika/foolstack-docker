@@ -4,6 +4,7 @@ WORKDIR /eve
 ENTRYPOINT [ "sh", "/eve/entrypoint.sh"]
 CMD ["python3", "/eve/eve.py"]
 
+ADD https://api.github.com/repos/bibanon/eve/git/refs/heads/master /version.json
 RUN wget https://github.com/bibanon/eve/archive/master.tar.gz -qO- | tar xzf - --strip-components=1 -C /eve
 RUN apk add --update --no-cache  python3 py3-mysqlclient su-exec nodejs libintl
 RUN apk add --update --no-cache --virtual eve-build-dep gcc musl-dev python3-dev gettext \
