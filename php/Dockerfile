@@ -1,4 +1,4 @@
-FROM legsplits/foolstack:base
+FROM suika/foolstack:base
 ENTRYPOINT [ "sh", "/entrypoint.sh" ]
 CMD ["php-fpm7", "--nodaemonize", "--force-stderr"]
 HEALTHCHECK --interval=10s --timeout=5s --retries=3 \

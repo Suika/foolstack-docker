@@ -7,7 +7,7 @@ Configuration is done via `environment` or `env` file.
 version: '2'
 services:
   asagi:
-    image: legsplits/foolstack:asagi
+    image: suika/foolstack:asagi
     container_name: asagi
     restart: always
     environment:

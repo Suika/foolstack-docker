@@ -9,9 +9,9 @@ A full FoolFuuka stack on top of docker to remove the setup overhead and allow p
 5. Run "Trigger search indexing" (see bellow). You will get ERRORS, just run it again till none are displayed.
 6. Restart the `foolstack-sphinx` container
 
-Trigger search indexing: `docker container run -ti --rm --volumes-from foolstack-sphinx --net=container:foolstack-sphinx --name foolstack-sphinx-index legsplits/foolstack:manticore indexer --rotate --all`
+Trigger search indexing: `docker container run -ti --rm --volumes-from foolstack-sphinx --net=container:foolstack-sphinx --name foolstack-sphinx-index suika/foolstack:manticore indexer --rotate --all`
 
-Trigger background search indexing: `docker container run -t -d --rm --volumes-from foolstack-sphinx --net=container:foolstack-sphinx --name foolstack-sphinx-index legsplits/foolstack:manticore indexer --rotate --all`
+Trigger background search indexing: `docker container run -t -d --rm --volumes-from foolstack-sphinx --net=container:foolstack-sphinx --name foolstack-sphinx-index suika/foolstack:manticore indexer --rotate --all`
 
 Dunno why `docker exec -it foolstack-sphinx indexer --rotate --all` is killed. If you do, drop an issue.
 
@@ -25,7 +25,7 @@ If you are binding directories:
 version: "2.1"
 services:
   foolstack-db:
-    image: legsplits/foolstack:percona
+    image: suika/foolstack:percona
     container_name: foolstack-db
     restart: always
     networks:
@@ -36,7 +36,7 @@ services:
       - ff-db:/var/lib/mysql
       - ff-db-logs:/var/log/mysql
   foolstack-php:
-    image: legsplits/foolstack:php
+    image: suika/foolstack:php
     container_name: foolstack-php
     restart: always
     networks:
@@ -54,7 +54,7 @@ services:
       - ff-foolframe-logs:/var/www/foolfuuka/app/foolz/foolframe/logs
 #      - ff-boards:/var/www/foolfuuka/public/foolfuuka/boards # uncomment for image uploads by foolfuuka
   foolstack-nginx:
-    image: legsplits/foolstack:nginx
+    image: suika/foolstack:nginx
     container_name: foolstack-nginx
     restart: always
     networks:
@@ -81,7 +81,7 @@ services:
     volumes:
       - ff-redis:/data
   foolstack-scraper:
-    image: legsplits/foolstack:hayden # :asagi :eve :hayden
+    image: suika/foolstack:hayden # :asagi :eve :hayden
     container_name: foolstack-scraper
     restart: always
     networks:
@@ -96,7 +96,7 @@ services:
     volumes:
       - ff-boards:/boards
   foolstack-sphinx:
-    image: legsplits/foolstack:manticore
+    image: suika/foolstack:manticore
     container_name: foolstack-sphinx
     restart: always
     networks:

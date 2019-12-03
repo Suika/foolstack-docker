@@ -10,7 +10,7 @@ Volume:
 version: '2'
 services:
   foolstack-php:
-    image: legsplits/foolstack:php
+    image: suika/foolstack:php
     container_name: foolstack-php
     restart: always
     environment:
