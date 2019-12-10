@@ -5,7 +5,9 @@ GROUP_ID=${GID}
 
 export SCRAPER_BOARDS=$(echo $SCRAPER_BOARDS | sed "s/^/'/;s/$/'/;s/\s*,\s*/','/g")
 
-envsubst < /eve/.config.py.env > /eve/config.py
+if [ ! -f "/eve/config.py" ]; then
+  envsubst < /eve/.config.py.env > /eve/config.py
+fi
 
 echo "Setting permissions to UID/GID: ${USER_ID}/${GROUP_ID}"
 chown ${USER_ID}:${GROUP_ID} -R /eve

@@ -21,7 +21,9 @@ EOF
 )
 fi
 
-envsubst < /hayden/.config.json.env > /hayden/config.json
+if [ ! -f "/hayden/config.json" ]; then
+  envsubst < /hayden/.config.json.env > /hayden/config.json
+fi
 
 echo "Setting permissions to UID/GID: ${USER_ID}/${GROUP_ID}"
 chown ${USER_ID}:${GROUP_ID} -R /hayden

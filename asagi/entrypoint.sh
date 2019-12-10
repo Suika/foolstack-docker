@@ -5,7 +5,9 @@ GROUP_ID=${GID}
 
 export SCRAPER_BOARDS=$(echo $SCRAPER_BOARDS | sed "s/^/\"/;s/$/\"\:\{\}/;s/\s*,\s*/\"\:\{\},\"/g")
 
-envsubst < /asagi/.asagi.json.env > /asagi/asagi.json
+if [ ! -f "/asagi/asagi.json" ]; then
+  envsubst < /asagi/.asagi.json.env > /asagi/asagi.json
+fi
 
 echo "Setting permissions to UID/GID: ${USER_ID}/${GROUP_ID}"
 chown ${USER_ID}:${GROUP_ID} -R /asagi

@@ -10,8 +10,6 @@ RUN apk add --update --no-cache  python3 py3-mysqlclient su-exec nodejs libintl
 RUN apk add --update --no-cache --virtual eve-build-dep gcc musl-dev python3-dev gettext \
     && cp /usr/bin/envsubst /usr/local/bin/envsubst \
     && pip3 install -r requirements.txt \
-    && sed -i '/toScreen(tmp, linefeed)/d' /eve/utils.py \
-    && sed -i "s/filename='eve.log',//" /eve/eve.py \
     && apk del eve-build-dep \
     && mkdir -p /boards \
     && python3 -m pip uninstall --yes setuptools pip \
