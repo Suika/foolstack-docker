@@ -1,3 +1,24 @@
+This is a question, because I dont know where to put it. 
+the directory structure is reversed for foolfuuka/frame within the php system. 
+checking out the repo, doing docker-compose up -d does not result in a fully working system. 
+Here is the error I found when navigating. 
+example: /foolfuuka/boards/image/wg/1574/34/1574348094708.png ...should be...
+      /foolfuuka/boards/wg/image/1574/34/1574348094708.png
+      
+the directory structure in the shared volume is ...
+/boards # ls
+image  thumb
+/boards # ls *
+image:
+w   wg
+thumb:
+w   wg
+
+when it should be (if the url is authoritative: /boards/wg/image and /boards/wg/thumb)
+
+Do you know how to fix this so that it is more stream lined? I was using the hayden scraper
+
+
 # FoolStack
 
 A full FoolFuuka stack on top of docker to remove the setup overhead and allow portability.
