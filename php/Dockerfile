@@ -11,6 +11,7 @@ RUN apk --update --no-cache add php7-fpm php7-bcmath php7-json php7-opcache php7
 COPY www.conf /etc/php7/php-fpm.d/www.conf
 COPY php.ini /etc/php7/php.ini
 COPY entrypoint.sh .foolframe.cache.php.env .foolframe.db.php.env .foolframe.config.php.env .foolfuuka.config.php.env php-fpm-healthcheck /
+RUN chmod +x /php-fpm-healthcheck
 ENV LD_PRELOAD=/usr/lib/preloadable_libiconv.so \
     FPM_PM=dynamic \
     FPM_PM_MAX_CHILDREN=5 \
