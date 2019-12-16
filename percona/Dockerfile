@@ -1,5 +1,5 @@
 FROM healthcheck/percona
-ENTRYPOINT ["sh, "/docker-entrypoint.sh"]
+ENTRYPOINT ["sh", "/docker-entrypoint.sh"]
 USER root
 RUN yum install -y gettext && yum clean all && rm -rf /var/cache/yum
 USER mysql
