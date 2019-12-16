@@ -57,7 +57,7 @@ services:
     volumes:
       - ff-redis:/data
   foolstack-scraper:
-    image: suika/foolstack:hayden # :asagi :eve :hayden
+    image: suika/foolstack:eve # :asagi :eve :hayden
     container_name: foolstack-scraper
     restart: always
     networks:
@@ -67,8 +67,8 @@ services:
         condition: service_healthy
     environment:
       - SCRAPER_BOARDS=w,wg
-      - SCRAPER_DOWNLOAD_MEDIA=true     # true/false if hayden, True/False if eve
-      - SCRAPER_DOWNLOAD_THUMBS=true    # true/false if hayden, True/False if eve
+      - SCRAPER_DOWNLOAD_MEDIA=True     # true/false if hayden, True/False if eve
+      - SCRAPER_DOWNLOAD_THUMBS=True    # true/false if hayden, True/False if eve
     volumes:
       - ff-boards:/boards
   foolstack-sphinx:
