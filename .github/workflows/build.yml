@@ -1,0 +1,96 @@
+name: buildx
+on:
+  pull_request:
+    branches: master
+  push:
+    branches: master
+
+jobs:
+  nginx:
+    runs-on: [ubuntu-latest]
+    steps:
+      -
+        name: Checkout
+        uses: actions/checkout@v1
+      -
+        name: Set up Docker Buildx
+        id: buildx
+        uses: crazy-max/ghaction-docker-buildx@v1
+        with:
+          version: latest
+      -
+        name: Available platforms
+        run: echo ${{ steps.buildx.outputs.platforms }}
+      -
+        name: Run Buildx
+        run: |
+          docker buildx build \
+            --platform linux/amd64,linux/arm64,linux/386,linux/arm/v6,linux/arm/v7 \
+            --output "type=image,push=false" \
+            --file ./nginx/Dockerfile ./nginx/
+  php:
+    runs-on: [ubuntu-latest]
+    steps:
+      -
+        name: Checkout
+        uses: actions/checkout@v1
+      -
+        name: Set up Docker Buildx
+        id: buildx
+        uses: crazy-max/ghaction-docker-buildx@v1
+        with:
+          version: latest
+      -
+        name: Available platforms
+        run: echo ${{ steps.buildx.outputs.platforms }}
+      -
+        name: Run Buildx
+        run: |
+          docker buildx build \
+            --platform linux/amd64,linux/arm64,linux/386,linux/arm/v6,linux/arm/v7 \
+            --output "type=image,push=false" \
+            --file ./php/Dockerfile ./nginx/
+  eve:
+    runs-on: [ubuntu-latest]
+    steps:
+      -
+        name: Checkout
+        uses: actions/checkout@v1
+      -
+        name: Set up Docker Buildx
+        id: buildx
+        uses: crazy-max/ghaction-docker-buildx@v1
+        with:
+          version: latest
+      -
+        name: Available platforms
+        run: echo ${{ steps.buildx.outputs.platforms }}
+      -
+        name: Run Buildx
+        run: |
+          docker buildx build \
+            --platform linux/amd64,linux/arm64,linux/386,linux/arm/v6,linux/arm/v7 \
+            --output "type=image,push=false" \
+            --file ./eve/Dockerfile ./eve/
+  asagi:
+    runs-on: [ubuntu-latest]
+    steps:
+      -
+        name: Checkout
+        uses: actions/checkout@v1
+      -
+        name: Set up Docker Buildx
+        id: buildx
+        uses: crazy-max/ghaction-docker-buildx@v1
+        with:
+          version: latest
+      -
+        name: Available platforms
+        run: echo ${{ steps.buildx.outputs.platforms }}
+      -
+        name: Run Buildx
+        run: |
+          docker buildx build \
+            --platform linux/amd64,linux/arm64,linux/386,linux/arm/v6,linux/arm/v7 \
+            --output "type=image,push=false" \
+            --file ./asagi/Dockerfile ./asagi/
