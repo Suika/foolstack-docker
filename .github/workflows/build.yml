@@ -71,7 +71,6 @@ jobs:
           docker buildx build \
             --platform linux/amd64,linux/arm64,linux/386,linux/arm/v6,linux/arm/v7 \
             --output "type=image,push=false" \
-            --squash \
             --file ./eve/Dockerfile ./eve/
   asagi:
     runs-on: [ubuntu-latest]
