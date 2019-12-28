@@ -4,7 +4,7 @@ CMD ["php-fpm7", "--nodaemonize", "--force-stderr"]
 HEALTHCHECK --interval=10s --timeout=5s --retries=3 \
   CMD sh /php-fpm-healthcheck -v || exit 1
 RUN apk --update --no-cache add php7-fpm php7-bcmath php7-json php7-opcache php7-curl php7-mbstring php7-gd php7-zip \
-    php7-xml php7-pdo_mysql php7-mysqli php7-fileinfo php7-exif php7-iconv php7-pecl-apcu fcgi imagemagick libintl gettext && \
+    php7-xml php7-pdo_mysql php7-mysqli php7-fileinfo php7-exif php7-iconv php7-pecl-apcu php7-session fcgi imagemagick libintl gettext && \
     cp /usr/bin/envsubst /usr/local/bin/envsubst && \
     apk del gettext && \
     apk add gnu-libiconv --update --update-cache --no-cache --repository http://dl-cdn.alpinelinux.org/alpine/edge/community/ --allow-untrusted
