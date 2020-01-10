@@ -1,4 +1,4 @@
-FROM manticoresearch/manticore:latest
+FROM manticoresearch/manticore:3.2.0
 
 RUN apt-get update && apt-get -y install mariadb-client && rm -rf /var/lib/apt/lists/*
 COPY sphinx.sh /etc/sphinxsearch/sphinx.conf
