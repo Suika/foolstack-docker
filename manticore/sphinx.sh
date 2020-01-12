@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 export MYSQL_PWD=${DB_FOOLFUUKA_PASS}
 export MAIN_TABLE=$(echo "SELECT shortname FROM ${DB_FOOLFUUKA_NAME}.ff_boards WHERE sphinx = 1 ORDER BY id ASC;" | mysql --host=${DB_HOST} --user=${DB_SPHINX_USER} --password=${DB_SPHINX_PASS} --silent --skip-column-names ${DB_FOOLFUUKA_NAME} | head -n 1)
@@ -190,7 +190,7 @@ indexer
 {
   # memory limit, in bytes, kiloytes (16384K) or megabytes (256M)
   # optional, default is 32M, max is 2047M, recommended is 256M to 1024M
-  mem_limit             = 1024M
+  mem_limit             = 512M
 
   # maximum IO calls per second (for I/O throttling)
   # optional, default is 0 (unlimited)
