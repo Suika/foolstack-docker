@@ -190,7 +190,7 @@ indexer
 {
   # memory limit, in bytes, kiloytes (16384K) or megabytes (256M)
   # optional, default is 32M, max is 2047M, recommended is 256M to 1024M
-  mem_limit             = 512M
+  mem_limit             = ${MEM_LIMIT}
 
   # maximum IO calls per second (for I/O throttling)
   # optional, default is 0 (unlimited)
@@ -205,19 +205,19 @@ indexer
   # maximum xmlpipe2 field length, bytes
   # optional, default is 2M
   #
-  max_xmlpipe2_field    = 4M
+  max_xmlpipe2_field    = ${MAX_XMLPIPE2_FIELD}
 
   # write buffer size, bytes
   # several (currently up to 4) buffers will be allocated
   # write buffers are allocated in addition to mem_limit
   # optional, default is 1M
   #
-  write_buffer          = 8M
+  write_buffer          = ${WRITE_BUFFER}
 
   # maximum file field adaptive buffer size
   # optional, default is 8M, minimum is 1M
   #
-  max_file_field_buffer = 32M
+  max_file_field_buffer = ${MAX_FILE_FIELD_BUFFER}
 }
 
 #############################################################################
@@ -248,15 +248,15 @@ searchd
 
   # client read timeout, seconds
   # optional, default is 5
-  read_timeout    = 5
+  read_timeout    = ${READ_TIMEOUT}
 
   # request timeout, seconds
   # optional, default is 5 minutes
-  client_timeout  = 300
+  client_timeout  = ${CLIENT_TIMEOUT}
 
   # maximum amount of children to fork (concurrent searches to run)
   # optional, default is 0 (unlimited)
-  max_children    = 0
+  max_children    = ${MAX_CHILDREN}
 
   # PID file, searchd process ID file name
   # mandatory
@@ -264,15 +264,15 @@ searchd
 
   # seamless rotate, prevents rotate stalls if precaching huge datasets
   # optional, default is 1
-  seamless_rotate = 1
+  seamless_rotate = ${SEAMLESS_ROTATE}
 
   # whether to forcibly preopen all indexes on startup
   # optional, default is 1 (preopen everything)
-  preopen_indexes = 1
+  preopen_indexes = ${PREOPEN_INDEXES}
 
   # whether to unlink .old index copies on succesful rotation.
   # optional, default is 1 (do unlink)
-  unlink_old      = 1
+  unlink_old      = ${UNLINK_OLD}
 
   # attribute updates periodic flush timeout, seconds
   # updates will be automatically dumped to disk this frequently
@@ -292,7 +292,7 @@ searchd
   # max allowed network packet size
   # limits both query packets from clients, and responses from agents
   # optional, default size is 8M
-  max_packet_size   = 32M
+  max_packet_size   = ${MAX_PACKET_SIZE}
 
   # crash log path
   # searchd will (try to) log crashed query to 'crash_log_path.PID' file
@@ -302,16 +302,16 @@ searchd
 
   # max allowed per-query filter count
   # optional, default is 256
-  max_filters        = 256
+  max_filters        = ${MAX_FILTERS}
 
   # max allowed per-filter values count
   # optional, default is 4096
-  max_filter_values  = 4096
+  max_filter_values  = ${MAX_FILTER_VALUES}
 
   # socket listen queue length
   # optional, default is 5
   #
-  listen_backlog    = 25
+  listen_backlog    = ${LISTEN_BACKLOG}
 
   # per-keyword read buffer size
   # optional, default is 256K
@@ -325,7 +325,7 @@ searchd
 
   # max allowed per-batch query count (aka multi-query count)
   # optional, default is 32
-  max_batch_queries  = 32
+  max_batch_queries  = ${MAX_BATCH_QUERIES}
 
   # max common subtree document cache size, per-query
   # optional, default is 0 (disable subtree optimization)
@@ -370,7 +370,7 @@ searchd
   # per-thread stack size, only affects workers=threads mode
   # optional, default is 64K
   #
-  thread_stack      = 128K
+  thread_stack      = ${THREAD_STACK}
 
   # per-keyword expansion limit (for dict=keywords prefix searches)
   # optional, default is 0 (no limit)
