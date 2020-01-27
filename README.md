@@ -9,11 +9,9 @@ A full FoolFuuka stack on top of docker to remove the setup overhead and allow p
 5. Run "Trigger search indexing" (see bellow). You will get ERRORS, just run it again till none are displayed.
 6. Restart the `foolstack-sphinx` container
 
-Trigger search indexing: `docker container run -ti --rm --volumes-from foolstack-sphinx --net=container:foolstack-sphinx --name foolstack-sphinx-index suika/foolstack:manticore indexer --rotate --all`
+Trigger search indexing: `docker exec -it foolstack-sphinx indexer --rotate --all`
 
-Trigger background search indexing: `docker container run -t -d --rm --volumes-from foolstack-sphinx --net=container:foolstack-sphinx --name foolstack-sphinx-index suika/foolstack:manticore indexer --rotate --all`
-
-Dunno why `docker exec -it foolstack-sphinx indexer --rotate --all` is killed. If you do, drop an issue.
+Trigger background search indexing: `docker exec -t -d foolstack-sphinx indexer --rotate --all`
 
 ### Permission
 If you are binding directories:
