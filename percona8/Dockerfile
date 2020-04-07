@@ -19,6 +19,5 @@ ENV DB_SPHINX_USER=sphinx \
     DB_FOOLFUUKA_PASS=pass \
     DB_FOOLFUUKA_NAME=foolfuuka
 USER root
-#COPY profile /var/lib/boot2docker/profile
 RUN sh /docker-entrypoint-initdb.d/1_foolstack-init.sh
 USER mysql
