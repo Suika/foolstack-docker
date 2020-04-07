@@ -1,0 +1,13 @@
+CREATE USER 'asagi'@'foolstack-scraper%' IDENTIFIED BY 'pass';
+CREATE USER 'foolfuuka'@'foolstack-php%' IDENTIFIED BY 'pass';
+CREATE USER 'sphinx'@'foolstack-sphinx%' IDENTIFIED BY 'pass';
+CREATE DATABASE asagi DEFAULT CHARACTER SET utf8mb4 DEFAULT COLLATE utf8mb4_general_ci;
+CREATE DATABASE foolfuuka DEFAULT CHARACTER SET utf8mb4 DEFAULT COLLATE utf8mb4_general_ci;
+CREATE TABLE `asagi`.`index_counters` (id varchar(50) DEFAULT 1, val int(10) NOT NULL, PRIMARY KEY (id)) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+GRANT ALL PRIVILEGES ON `asagi`. * TO 'asagi'@'foolstack-scraper%';
+GRANT ALL PRIVILEGES ON `asagi`. * TO 'foolfuuka'@'foolstack-php%';
+GRANT ALL PRIVILEGES ON `foolfuuka`. * TO 'foolfuuka'@'foolstack-php%';
+GRANT SELECT ON `asagi`.* TO 'sphinx'@'foolstack-sphinx%';
+GRANT SELECT ON `foolfuuka`.`ff_boards` TO 'sphinx'@'foolstack-sphinx%';
+GRANT SELECT, INSERT, UPDATE, DELETE, CREATE, DROP, REFERENCES, INDEX, ALTER, CREATE VIEW, TRIGGER, SHOW VIEW ON `asagi`.`index_counters` TO 'sphinx'@'foolstack-sphinx%' WITH GRANT OPTION;
+FLUSH PRIVILEGES;
