@@ -1,0 +1,121 @@
+# https://soundcloud.com/dy-ako/peko-peko-peko
+version: "2.1"
+services:
+  seaweed-master:
+    container_name: seaweed-master
+    image: chrislusf/seaweedfs:2.23_large_disk
+    command: "master -ip=seaweed-master -volumeSizeLimitMB=200000"
+    restart: always
+    networks:
+      - foolstack
+    ports:
+      - 127:0.0.1:9333:9333
+    #  - 127:0.0.1:19333:19333
+    volumes:
+      - ./master.toml:/etc/seaweedfs/master.toml
+      - ./seaweedfs/master/data:/data
+
+  seaweed-volume-1:
+    container_name: seaweed-volume-1
+    image: chrislusf/seaweedfs:2.23_large_disk
+    restart: always
+    networks:
+      - foolstack
+    volumes:
+      - ./seaweedfs/seaweed-volume-1:/data
+    ports:
+      - 127:0.0.1:8080:8080
+    #  - 127:0.0.1:18080:18080
+    command: 'volume -mserver="seaweed-master:9333" -port=8080 -dataCenter=asagi -rack=hdd'
+    depends_on:
+      seaweed-master:
+          condition: service_started
+
+  seaweed-filer:
+    container_name: seaweed-filer
+    image: chrislusf/seaweedfs:2.23_large_disk
+    restart: always
+    networks:
+      - foolstack
+    ports:
+      - 7865:7865
+      - 127:0.0.1:8888:8888
+    #  - 127:0.0.1:18888:18888
+    command: 'filer -master="seaweed-master:9333" -disableDirListing -port.readonly=7865'
+    tty: true
+    stdin_open: true
+    volumes:
+      - ./seaweedfs/filer:/data
+    depends_on:
+      seaweed-master:
+          condition: service_started
+      seaweed-volume-1:
+          condition: service_started
+
+  seaweed-s3:
+    image: chrislusf/seaweedfs:2.23_large_disk
+    container_name: seaweed-s3
+    restart: always
+    networks:
+      - foolstack
+    ports:
+      - 127:0.0.1:8333:8333
+    command: 's3 -filer="seaweed-filer:8888" -config=/config.json'
+    volumes:
+      - ./config.json:/config.json:ro
+    depends_on:
+      seaweed-master:
+          condition: service_started
+      seaweed-filer:
+          condition: service_started
+      seaweed-volume-1:
+          condition: service_started
+
+  torako:
+    container_name: torako
+    image: suika/ayase:torako
+    restart: always
+    networks:
+      - foolstack
+    depends_on:
+      4chan-scrape-db:
+          condition: service_started
+      seaweed-s3:
+          condition: service_started
+    volumes:
+      - ./Torako.toml:/Torako.toml
+
+  4chan-scrape-db:
+    image: mysql:8
+    container_name: 4chan-scrape-db
+    command: ["--default-authentication-plugin=mysql_native_password", 
+              "--log_bin_trust_function_creators=1",
+              "--innodb-buffer-pool-size=20G", 
+              "--character-set-server=utf8mb4"]
+    restart: always
+    networks:
+      - foolstack
+    cap_add:
+      - SYS_NICE
+    environment:
+      - MYSQL_ROOT_PASSWORD='bunbuncha'
+      - MYSQL_DATABASE=asagi
+    ports:
+      - 127:0.0.1:3306:3306
+    volumes:
+      - ./mysql/data:/var/lib/mysql
+
+  ayase:
+    image: suika/ayase:ayase
+    container_name: ayase
+    depends_on:
+      4chan-scrape-db:
+          condition: service_started
+    restart: always
+    command: ["uvicorn","view.asagi:app", "--host", "0.0.0.0"]
+    volumes:
+      - ./ayase.config.toml:/opt/ayase/config.toml
+
+networks:
+  foolstack:
+    name: foolstack
