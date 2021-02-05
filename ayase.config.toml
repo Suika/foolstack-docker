@@ -100,6 +100,10 @@ name = "Retro Games"
 shortname = "wsg"
 name = "Worksafe GIF"
 
+[[archives]]
+shortname = "g"
+name = "Computer nerd shit"
+
 ## List of non-archive boards to display.
 ## Boards currently are no different from archives, although it may be used for text
 ## boards in the future.

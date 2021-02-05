@@ -26,7 +26,7 @@ services:
     ports:
       - 127:0.0.1:8080:8080
     #  - 127:0.0.1:18080:18080
-    command: 'volume -mserver="seaweed-master:9333" -port=8080 -dataCenter=asagi -rack=hdd'
+    command: 'volume -mserver="seaweed-master:9333" -port=8080 -dataCenter=asagi -rack=hdd -max=32'
     depends_on:
       seaweed-master:
           condition: service_started
@@ -41,11 +41,15 @@ services:
       - 7865:7865
       - 127:0.0.1:8888:8888
     #  - 127:0.0.1:18888:18888
+    environment:
+      WEED_LEVELDB2_ENABLED: 'true'
+      WEED_LEVELDB2_DIR: '/filerldb2'
     command: 'filer -master="seaweed-master:9333" -disableDirListing -port.readonly=7865'
     tty: true
     stdin_open: true
     volumes:
       - ./seaweedfs/filer:/data
+      - ./seaweedfs/filer/filerldb2:/filerldb2
     depends_on:
       seaweed-master:
           condition: service_started
@@ -98,8 +102,8 @@ services:
     cap_add:
       - SYS_NICE
     environment:
-      - MYSQL_ROOT_PASSWORD='bunbuncha'
-      - MYSQL_DATABASE=asagi
+      MYSQL_ROOT_PASSWORD: 'bunbuncha'
+      MYSQL_DATABASE: 'asagi'
     ports:
       - 127:0.0.1:3306:3306
     volumes:
@@ -112,9 +116,27 @@ services:
       4chan-scrape-db:
           condition: service_started
     restart: always
+    networks:
+      - foolstack
+    ports:
+      - 127:0.0.1:29080:8000      
     command: ["uvicorn","view.asagi:app", "--host", "0.0.0.0"]
     volumes:
       - ./ayase.config.toml:/opt/ayase/config.toml
+
+  # prepare-dirs:
+  #   image: alpine
+  #   container_name: prepare-dirs
+  #   restart: 'no'
+  #   # command: ["mkdir", "-vp", 
+  #   #   "/o/seaweedfs/master/data",
+  #   #   "/o/seaweedfs/seaweed-volume-1",
+  #   #   "/o/seaweedfs/filer",
+  #   #   "/o/seaweedfs/filer/filerldb2"]
+  #   command: '/o/mkdirs.sh'    
+  #   volumes:
+  #     ## /o/ = Outside
+  #     - .:/o/
 
 networks:
   foolstack:

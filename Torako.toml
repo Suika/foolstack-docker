@@ -64,21 +64,21 @@ request_timeout = "30m"
 #download_media = true
 
 ## List the boards that should be archived
-[boards.a]
-[boards.c]
-[boards.d]
-[boards.e]
-[boards.f]
-[boards.fit]
+#[boards.a]
+#[boards.c]
+#[boards.d]
+#[boards.e]
+#[boards.f]
+#[boards.fit]
 [boards.g]
-[boards.gif]
-[boards.h]
-[boards.ic]
-[boards.jp]
-[boards.u]
-[boards.w]
-[boards.wg]
-[boards.vt]
+#[boards.gif]
+#[boards.h]
+#[boards.ic]
+#[boards.jp]
+#[boards.u]
+#[boards.w]
+#[boards.wg]
+#[boards.vt]
 
 ## Any of the above options can be provided
 ## here for board specific options
