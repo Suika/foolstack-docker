@@ -1,0 +1,27 @@
+# https://soundcloud.com/dy-ako/peko-peko-peko
+version: "2.1"
+services:
+  torako:
+    container_name: torako
+    image: suika/ayase:torako
+    restart: always
+    networks:
+      - foolstack
+    depends_on:
+      4chan-scrape-db:
+          condition: service_started
+      seaweed-s3:
+          condition: service_started
+    volumes:
+      - ./Torako.toml:/Torako.toml
+
+  ayase:
+    image: suika/ayase:ayase
+    container_name: ayase
+    depends_on:
+      4chan-scrape-db:
+          condition: service_started
+    restart: always
+    command: ["uvicorn","view.asagi:app", "--host", "0.0.0.0"]
+    volumes:
+      - ./ayase.config.toml:/opt/ayase/config.toml
