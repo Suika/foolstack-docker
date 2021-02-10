@@ -55,21 +55,31 @@ L161-162: 7865 is the RO port of seaweed filer, the IP should be of the host whe
 L204-213: DB config. Same as in `Torako.toml` or `docker-compose.yml`
 
 ## Running
-Start/create containers in the background:
+Pull containers images:
+```
+$ docker-compose -f "docker-compose.yml" -f "docker-compose.ayase.yml" pull
+```
+
+Start/create seaweed + MySQL containers in the background:
 ```
 $ docker-compose -f "docker-compose.yml" up -d
 ```
 
+Start/create Torako + Ayase containers in the background:
+```
+$ docker-compose -f "docker-compose.yml" -f "docker-compose.ayase.yml" up -d
+```
+
 Stop/remove containers:
 ```
-$ docker-compose -f "docker-compose.yml" down
+$ docker-compose -f "docker-compose.yml" -f "docker-compose.ayase.yml" down
 ```
 
 
 ### Viewing logs
 ```
 $ docker-compose -f "docker-compose.yml" logs
-$ docker-compose -f "docker-compose.yml" logs ayase
+$ docker-compose -f "docker-compose.yml" -f "docker-compose.ayase.yml" logs ayase
 ```
 
 ### Running commands inside containers manually:
