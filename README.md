@@ -13,10 +13,10 @@ The start order for the containers should be:
 2. mysql (10-60s) > torako (1-10s)
 3. ayase
 
-So, this can be more or less be avoided by splitting seaweed and foolstack into two parts.
-First you would start seaweeed and for it to come up properly.
-After that the rest of the stack can be started. Torako crashing because MySQL is now up is fine.
-Torako writing to seaweed before all volumes are up, [not good](https://youtu.be/FNWmn6bKOmk?t=1181).
+So, this can be more or less be avoided by splitting seaweed and foolstack into two parts.  
+First you would start seaweeed and for it to come up properly.  
+After that the rest of the stack can be started. Torako crashing because MySQL is now up is fine.  
+Torako writing to seaweed before all volumes are up, [not good](https://youtu.be/FNWmn6bKOmk?t=1181).  
 Thing that will happen are not easy to fix, so don't. Thx.
 
 ## Install preprequisites
@@ -24,7 +24,7 @@ Thing that will happen are not easy to fix, so don't. Thx.
 * [Install docker-compose](https://docs.docker.com/compose/install/)
 
 ## Prep
-This script makes them if they do not exist and assigns permissions permissive enough to make sure seaweedfs can use them.
+This script makes them if they do not exist and assigns permissions permissive enough to make sure seaweedfs can use them.  
 Technically not needed if you run docker and use seaweedfs v2.24.
 ```
 $ bash mkdirs.sh
@@ -32,26 +32,26 @@ $ bash mkdirs.sh
 
 ## Configuration
 ### Seaweed
-Look in docker-compose.yml#L7, see `-volumeSizeLimitMB`? That is the size of volumes that seaweed will create and pre-allocate space for.
-At least 2 volumes will be created. One for internal metadata of seaweed and another for your data. This numbre is only a softlimit.
-So increasing it in the future will allow for the volumes to grow, but think about it beforehand and set a number you like. I recommend 200G.
-Ports will be explain sometime later, or figure it out [here](https://github.com/chrislusf/seaweedfs/wiki)
+Look in docker-compose.yml#L7, see `-volumeSizeLimitMB`? That is the size of volumes that seaweed will create and pre-allocate space for.  
+At least 2 volumes will be created. One for internal metadata of seaweed and another for your data. This numbre is only a softlimit.  
+So increasing it in the future will allow for the volumes to grow, but think about it beforehand and set a number you like. I recommend 200G.  
+Ports will be explain sometime later, or figure it out [here](https://github.com/chrislusf/seaweedfs/wiki)  
 Port 7865 is the only one you should think about for now, this is where the files can be loaded from.
 
 ### Torako
-Check `Torako.toml`
-L67-81: Set the boards that you want to archive.
-L98,102: Should media and thumbs be saved.
-L115: If this a new setup, set it to True.
-L152: I don't recomend changing it for now, unless you know how seaweed works.
-L251: DB config, no real need to change unless you do productive setup.
-L264,270: Keep it this way if you only use torako. But it's up to you.
+Check `Torako.toml`  
+L67-81: Set the boards that you want to archive.  
+L98,102: Should media and thumbs be saved.  
+L115: If this a new setup, set it to True.  
+L152: I don't recomend changing it for now, unless you know how seaweed works.  
+L251: DB config, no real need to change unless you do productive setup.  
+L264,270: Keep it this way if you only use torako. But it's up to you.  
 L369-381: S3/Seaweed config. For now keep it that way. The S3 credentials are located in `config.json`
 
 ### Ayase
-Check `ayase.config.toml`
-L27-101: What boards should be show, basically what you do added in `Torako.toml#L67-81`
-L161-162: 7865 is the RO port of seaweed filer, the IP should be of the host where the stack is running or localhost.
+Check `ayase.config.toml`  
+L27-101: What boards should be show, basically what you do added in `Torako.toml#L67-81`  
+L161-162: 7865 is the RO port of seaweed filer, the IP should be of the host where the stack is running or localhost.  
 L204-213: DB config. Same as in `Torako.toml` or `docker-compose.yml`
 
 ## Running
