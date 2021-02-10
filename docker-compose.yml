@@ -3,8 +3,8 @@ version: "2.1"
 services:
   seaweed-master:
     container_name: seaweed-master
-    image: chrislusf/seaweedfs:2.23_large_disk
-    command: "master -ip=seaweed-master -volumeSizeLimitMB=200000"
+    image: chrislusf/seaweedfs:2.24_large_disk
+    command: "master -ip=seaweed-master -volumeSizeLimitMB=20000"
     restart: always
     networks:
       - foolstack
@@ -17,7 +17,7 @@ services:
 
   seaweed-volume-1:
     container_name: seaweed-volume-1
-    image: chrislusf/seaweedfs:2.23_large_disk
+    image: chrislusf/seaweedfs:2.24_large_disk
     restart: always
     networks:
       - foolstack
@@ -33,7 +33,7 @@ services:
 
   seaweed-filer:
     container_name: seaweed-filer
-    image: chrislusf/seaweedfs:2.23_large_disk
+    image: chrislusf/seaweedfs:2.24_large_disk
     restart: always
     networks:
       - foolstack
@@ -53,7 +53,7 @@ services:
           condition: service_started
 
   seaweed-s3:
-    image: chrislusf/seaweedfs:2.23_large_disk
+    image: chrislusf/seaweedfs:2.24_large_disk
     container_name: seaweed-s3
     restart: always
     networks:
@@ -90,7 +90,7 @@ services:
     container_name: 4chan-scrape-db
     command: ["--default-authentication-plugin=mysql_native_password", 
               "--log_bin_trust_function_creators=1",
-              "--innodb-buffer-pool-size=20G", 
+              "--innodb-buffer-pool-size=10G", 
               "--character-set-server=utf8mb4"]
     restart: always
     networks:
@@ -98,8 +98,10 @@ services:
     cap_add:
       - SYS_NICE
     environment:
-      - MYSQL_ROOT_PASSWORD='bunbuncha'
-      - MYSQL_DATABASE=asagi
+      MYSQL_ROOT_PASSWORD: 'bunbuncha'
+      MYSQL_DATABASE: 'asagi'
+    networks:
+      - foolstack
     ports:
       - 127:0.0.1:3306:3306
     volumes:
