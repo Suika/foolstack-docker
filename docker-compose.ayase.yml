@@ -23,5 +23,9 @@ services:
           condition: service_started
     restart: always
     command: ["uvicorn","view.asagi:app", "--host", "0.0.0.0"]
+    networks:
+      - foolstack
+    ports:
+      - 29080:8000
     volumes:
       - ./ayase.config.toml:/opt/ayase/config.toml

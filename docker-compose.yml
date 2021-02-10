@@ -9,7 +9,7 @@ services:
     networks:
       - foolstack
     ports:
-      - 127:0.0.1:9333:9333
+    #  - 127:0.0.1:9333:9333
     #  - 127:0.0.1:19333:19333
     volumes:
       - ./master.toml:/etc/seaweedfs/master.toml
@@ -24,7 +24,7 @@ services:
     volumes:
       - ./seaweedfs/seaweed-volume-1:/data
     ports:
-      - 127:0.0.1:8080:8080
+    #  - 127:0.0.1:8080:8080
     #  - 127:0.0.1:18080:18080
     command: 'volume -mserver="seaweed-master:9333" -port=8080 -dataCenter=asagi -rack=hdd'
     depends_on:
@@ -39,7 +39,7 @@ services:
       - foolstack
     ports:
       - 7865:7865
-      - 127:0.0.1:8888:8888
+    #  - 127:0.0.1:8888:8888
     #  - 127:0.0.1:18888:18888
     command: 'filer -master="seaweed-master:9333" -disableDirListing -port.readonly=7865'
     tty: true
@@ -59,7 +59,7 @@ services:
     networks:
       - foolstack
     ports:
-      - 127:0.0.1:8333:8333
+    #  - 127:0.0.1:8333:8333
     command: 's3 -filer="seaweed-filer:8888" -config=/config.json'
     volumes:
       - ./config.json:/config.json:ro
@@ -79,8 +79,6 @@ services:
               "--innodb-buffer-pool-size=10G", 
               "--character-set-server=utf8mb4"]
     restart: always
-    networks:
-      - foolstack
     cap_add:
       - SYS_NICE
     environment:
@@ -89,7 +87,7 @@ services:
     networks:
       - foolstack
     ports:
-      - 127:0.0.1:3306:3306
+    #  - 127:0.0.1:3306:3306
     volumes:
       - ./mysql/data:/var/lib/mysql
 
