@@ -70,6 +70,7 @@ Create the buckets where the files will be located (this creates two different c
 docker exec seaweed-master -it /usr/bin/weed -master=seaweed-master:9333 -filer=seaweed-filer:8888
 s3.bucket.create -name asagi-thumbs
 s3.bucket.create -name asagi-images
+ctrl+d/ctrl+c/exit
 ```
 
 Start/create Torako + Ayase containers in the background:
