@@ -8,7 +8,7 @@ services:
     restart: always
     networks:
       - foolstack
-    ports:
+    #ports:
     #  - 127:0.0.1:9333:9333
     #  - 127:0.0.1:19333:19333
     volumes:
@@ -23,7 +23,7 @@ services:
       - foolstack
     volumes:
       - ./seaweedfs/seaweed-volume-1:/data
-    ports:
+    #ports:
     #  - 127:0.0.1:8080:8080
     #  - 127:0.0.1:18080:18080
     command: 'volume -mserver="seaweed-master:9333" -port=8080 -dataCenter=asagi -rack=hdd -max=32'
@@ -38,7 +38,7 @@ services:
     networks:
       - foolstack
     ports:
-      - 7865:7865
+      - 42081:7865 ## Readonly port, for serving ayase images.
     #  - 127:0.0.1:8888:8888
     #  - 127:0.0.1:18888:18888
     environment:
@@ -63,7 +63,7 @@ services:
     restart: always
     networks:
       - foolstack
-    ports:
+    #ports:
     #  - 127:0.0.1:8333:8333
     command: 's3 -filer="seaweed-filer:8888" -config=/config.json'
     volumes:
@@ -91,25 +91,10 @@ services:
       MYSQL_DATABASE: 'asagi'
     networks:
       - foolstack
-    ports:
+    #ports:
     #  - 127:0.0.1:3306:3306
     volumes:
       - ./mysql/data:/var/lib/mysql
-
-  ayase:
-    image: suika/ayase:ayase
-    container_name: ayase
-    depends_on:
-      4chan-scrape-db:
-          condition: service_started
-    restart: always
-    networks:
-      - foolstack
-    ports:
-      - 127:0.0.1:29080:8000      
-    command: ["uvicorn","view.asagi:app", "--host", "0.0.0.0"]
-    volumes:
-      - ./ayase.config.toml:/opt/ayase/config.toml
 
 networks:
   foolstack:

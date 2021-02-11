@@ -112,7 +112,7 @@ old_dir_structure = false
 
 ## Sha256 Directory Structure. Images will be stored in accordance to the
 ## sha256 hash of the image. (Default: false)
-sha_dir_structure = false
+sha_dir_structure = true
 
 ## If we fail to save a thread or post to MySQL for whatever
 ## reason, we should consider this as a fatal error and
