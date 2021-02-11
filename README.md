@@ -67,9 +67,10 @@ $ docker-compose -f "docker-compose.yml" up -d
 
 Create the buckets where the files will be located (this creates two different collections, basically own volumes different from others):
 ```
-docker exec seaweed-master -it /usr/bin/weed -master=seaweed-master:9333 -filer=seaweed-filer:8888
-s3.bucket.create -name asagi-thumbs
-s3.bucket.create -name asagi-images
+$ docker exec -it seaweed-master /usr/bin/weed shell -master=seaweed-master:9333 -filer=seaweed-filer:8888
+> s3.bucket.create -name asagi-thumbs
+> s3.bucket.create -name asagi-images
+
 ctrl+d/ctrl+c/exit
 ```
 

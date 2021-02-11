@@ -1,0 +1,13 @@
+## .gitignore
+
+## Private
+git_ignored/
+
+## Used by containers
+seaweedfs/
+mysql/
+
+## Clutter
+.vscode/
+*.code-workspace
+*.~*

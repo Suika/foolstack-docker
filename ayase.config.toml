@@ -24,81 +24,85 @@ authentication_type = "oauth2"
 
 ## List of archived boards to display.
 
-[[archives]]
-shortname = "a"
-name = "Anime & Manga"
+#[[archives]]
+#shortname = "a"
+#name = "Anime & Manga"
+
+#[[archives]]
+#shortname = "aco"
+#name = "Adult Cartoons"
+
+#[[archives]]
+#shortname = "an"
+#name = "Animals & Nature"
+
+#[[archives]]
+#shortname = "c"
+#name = "Cute"
+
+#[[archives]]
+#shortname = "co"
+#name = "Comics & Cartoons"
+
+#[[archives]]
+#shortname = "d"
+#name = "Hentai/Alternative"
+
+#[[archives]]
+#shortname = "fit"
+#name = "Fitness"
+
+#[[archives]]
+#shortname = "his"
+#name = "History & Humanities"
+
+#[[archives]]
+#shortname = "int"
+#name = "International"
+
+#[[archives]]
+#shortname = "k"
+#name = "Weapons"
+
+#[[archives]]
+#shortname = "m"
+#name = "Mecha"
+
+#[[archives]]
+#shortname = "mlp"
+#name = "Pony"
+
+#[[archives]]
+#shortname = "q"
+#name = "4chan Feedback"
+
+#[[archives]]
+#shortname = "qa"
+#name = "Question & Answer"
+
+#[[archives]]
+#shortname = "r9k"
+#name = "ROBOT9001"
+
+#[[archives]]
+#shortname = "tg"
+#name = "Traditional Games"
+
+#[[archives]]
+#shortname = "trash"
+#name = "Off-Topic"
+
+#[[archives]]
+#shortname = "vr"
+#name = "Retro Games"
+
+#[[archives]]
+#shortname = "wsg"
+#name = "Worksafe GIF"
 
 [[archives]]
-shortname = "aco"
-name = "Adult Cartoons"
-
-[[archives]]
-shortname = "an"
-name = "Animals & Nature"
-
-[[archives]]
-shortname = "c"
-name = "Cute"
-
-[[archives]]
-shortname = "co"
-name = "Comics & Cartoons"
-
-[[archives]]
-shortname = "d"
-name = "Hentai/Alternative"
-
-[[archives]]
-shortname = "fit"
-name = "Fitness"
-
-[[archives]]
-shortname = "his"
-name = "History & Humanities"
-
-[[archives]]
-shortname = "int"
-name = "International"
-
-[[archives]]
-shortname = "k"
-name = "Weapons"
-
-[[archives]]
-shortname = "m"
-name = "Mecha"
-
-[[archives]]
-shortname = "mlp"
-name = "Pony"
-
-[[archives]]
-shortname = "q"
-name = "4chan Feedback"
-
-[[archives]]
-shortname = "qa"
-name = "Question & Answer"
-
-[[archives]]
-shortname = "r9k"
-name = "ROBOT9001"
-
-[[archives]]
-shortname = "tg"
-name = "Traditional Games"
-
-[[archives]]
-shortname = "trash"
-name = "Off-Topic"
-
-[[archives]]
-shortname = "vr"
-name = "Retro Games"
-
-[[archives]]
-shortname = "wsg"
-name = "Worksafe GIF"
+shortname = "g"
+name = "Computer nerd shit"
 
 ## List of non-archive boards to display.
 ## Boards currently are no different from archives, although it may be used for text

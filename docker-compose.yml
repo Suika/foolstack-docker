@@ -26,7 +26,7 @@ services:
     #ports:
     #  - 127:0.0.1:8080:8080
     #  - 127:0.0.1:18080:18080
-    command: 'volume -mserver="seaweed-master:9333" -port=8080 -dataCenter=asagi -rack=hdd'
+    command: 'volume -mserver="seaweed-master:9333" -port=8080 -dataCenter=asagi -rack=hdd -max=32'
     depends_on:
       seaweed-master:
           condition: service_started
@@ -41,14 +41,19 @@ services:
       WEED_LEVELDB2_ENABLED: 'true'
       WEED_LEVELDB2_DIR: '/data'
     ports:
-      - 7865:7865
+      - 127.0.0.1:7865:7865 ## Readonly port, for serving ayase images.
     #  - 127:0.0.1:8888:8888
     #  - 127:0.0.1:18888:18888
-    command: 'filer -master="seaweed-master:9333" -disableDirListing -port.readonly=7865'
+    environment:
+      WEED_LEVELDB2_ENABLED: 'true'
+      WEED_LEVELDB2_DIR: '/filerldb2'
+    #command: 'filer -master="seaweed-master:9333" -disableDirListing -port.readonly=7865'
+    command: 'filer -master="seaweed-master:9333" -port.readonly=7865'
     tty: true
     stdin_open: true
     volumes:
       - ./seaweedfs/filer:/data
+      - ./seaweedfs/filer/filerldb2:/filerldb2
     depends_on:
       seaweed-master:
           condition: service_started
