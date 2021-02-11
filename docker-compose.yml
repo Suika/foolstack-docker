@@ -8,7 +8,7 @@ services:
     restart: always
     networks:
       - foolstack
-    ports:
+    #ports:
     #  - 127:0.0.1:9333:9333
     #  - 127:0.0.1:19333:19333
     volumes:
@@ -23,7 +23,7 @@ services:
       - foolstack
     volumes:
       - ./seaweedfs/seaweed-volume-1:/data
-    ports:
+    #ports:
     #  - 127:0.0.1:8080:8080
     #  - 127:0.0.1:18080:18080
     command: 'volume -mserver="seaweed-master:9333" -port=8080 -dataCenter=asagi -rack=hdd'
@@ -37,6 +37,9 @@ services:
     restart: always
     networks:
       - foolstack
+    environment:
+      WEED_LEVELDB2_ENABLED: 'true'
+      WEED_LEVELDB2_DIR: '/data'
     ports:
       - 7865:7865
     #  - 127:0.0.1:8888:8888
@@ -58,7 +61,7 @@ services:
     restart: always
     networks:
       - foolstack
-    ports:
+    #ports:
     #  - 127:0.0.1:8333:8333
     command: 's3 -filer="seaweed-filer:8888" -config=/config.json'
     volumes:
@@ -86,7 +89,7 @@ services:
       MYSQL_DATABASE: 'asagi'
     networks:
       - foolstack
-    ports:
+    #ports:
     #  - 127:0.0.1:3306:3306
     volumes:
       - ./mysql/data:/var/lib/mysql
