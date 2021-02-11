@@ -9,4 +9,5 @@ mysql/
 
 ## Clutter
 .vscode/
+*.code-workspace
 *.~*

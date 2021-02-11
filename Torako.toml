@@ -10,7 +10,7 @@ api_addr = "127.0.0.1:2377"
 ## this rate limit only affects downloading the JSON threads/posts
 ## and will ensure api requests are throttled appropirately.
 ## If this option is not specified, there will be no rate limiting
-#rate_limit = 10
+rate_limit = 2
 
 ## Global board thread concurrency. This is a limit on the amount of
 ## of threads that will be retrieved and buffered at once. If this limit
@@ -49,7 +49,7 @@ request_timeout = "30m"
 #host = "a.4cdn.org"
 
 ## Default refresh rate for boards (Default: 10s)
-#refresh_rate = "10s"
+refresh_rate = "30s"
 
 ## Default deleted page threshold. If threads
 ## are removed before this threshold is reached
@@ -58,10 +58,10 @@ request_timeout = "30m"
 #deleted_page_threshold = 8
 
 ## Download thumbnails (Default: true)
-#download_thumbs = true
+download_thumbs = true
 
 ## Download media/images (Default: true)
-#download_media = true
+download_media = true
 
 ## List the boards that should be archived
 #[boards.a]
@@ -149,7 +149,7 @@ sha_dir_structure = false
 ## concurrent downloads will ont exceed this number.
 ## Tune this number according to your memory and bandwidth preferences
 ## (Default: 128)
-concurrent_downloads = 10
+concurrent_downloads = 16
 
 ## Setting this to true means that the media download queue will backpressure
 ## the system, and once all concurrent_download slots are full, no more new
@@ -289,7 +289,7 @@ compute_stats = true
 ## like MySQL, UTC mode must be set explictly. This can be safely disabled
 ## if your database is already in UTC.
 ## (Default: true)
-#sql_set_utc = true
+sql_set_utc = true
 
 [backend.asagi_pg_search]
 disabled = true

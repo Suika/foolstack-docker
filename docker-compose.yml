@@ -44,7 +44,8 @@ services:
     environment:
       WEED_LEVELDB2_ENABLED: 'true'
       WEED_LEVELDB2_DIR: '/filerldb2'
-    command: 'filer -master="seaweed-master:9333" -disableDirListing -port.readonly=7865'
+    #command: 'filer -master="seaweed-master:9333" -disableDirListing -port.readonly=7865'
+    command: 'filer -master="seaweed-master:9333" -port.readonly=7865'
     tty: true
     stdin_open: true
     volumes:
